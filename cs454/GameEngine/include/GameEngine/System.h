@@ -3,6 +3,7 @@
 
 #include <GameEngine/Input.h>
 #include <GameEngine/ImageLoader.h>
+#include <GameEngine/SceneManager.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -54,6 +55,7 @@ class System final {
 		SDL_Quit();
 		TTF_Quit();
 		ImageLoader::GetImageLoader().CleanUp();
+		SceneManager::GetSceneManager().CleanUp();
 		Input::CleanUp();
 	}
 

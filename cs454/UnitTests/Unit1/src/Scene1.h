@@ -18,7 +18,7 @@ class Scene1 : public GameEngine::Scene {
 	GameEngine::Graphics::Window* window;
 	GameEngine::Graphics::Renderer* renderer;
 
-	GameEngine::Graphics::Tilemap* map;
+	GameEngine::Graphics::Tilemap* map = nullptr;
 	GameEngine::Graphics::Image* displayBuffer = nullptr;
 
 	int speed = 0;
@@ -71,8 +71,10 @@ class Scene1 : public GameEngine::Scene {
 	virtual void Save() override {}
 
 	virtual void CleanUp() override { 
-		GameEngine::System::Destroy(map);
-		GameEngine::System::Destroy(displayBuffer);
+		if (map)
+			GameEngine::System::Destroy(map);
+		if (displayBuffer)
+			GameEngine::System::Destroy(displayBuffer);
 	}
 
 	virtual void Render() override {

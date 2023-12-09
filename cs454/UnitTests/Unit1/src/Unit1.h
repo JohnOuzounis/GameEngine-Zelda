@@ -19,14 +19,7 @@ using namespace app;
 class Unit1 : public App {
    private:
 	Window* window = nullptr;
-
-	Tilemap* map;
-	Image* displayBuffer = nullptr;
 	Renderer* renderer;
-
-	int speed = 0;
-	int scaleX = 0;
-	int scaleY = 0;
 
 	void Init();
 	void Input();
@@ -41,7 +34,8 @@ class Unit1 : public App {
 			"../../../../../../cs454/UnitTests/Unit1/");
 	}
 	virtual void Clear() override {
-		delete window;
+		System::Destroy(window);
+		System::Destroy(renderer);
 		System::CleanUp();
 	}
 	virtual void Load() override { Init(); }

@@ -79,7 +79,9 @@ class Event {
 		Left = SDLK_LEFT,
 		Right = SDLK_RIGHT,
 		Home = SDLK_HOME,
-		End = SDLK_END
+		End = SDLK_END,
+		Plus = SDLK_EQUALS,
+		Minus = SDLK_MINUS
 	};
 
 	private:

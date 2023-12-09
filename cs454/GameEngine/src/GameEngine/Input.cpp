@@ -61,6 +61,8 @@ void GameEngine::Input::Init() {
 	keyStates[Event::Right] = false;
 	keyStates[Event::Home] = false;
 	keyStates[Event::End] = false;
+	keyStates[Event::Plus] = false;
+	keyStates[Event::Minus] = false;
 
 	keyHeld[Event::Key_0] = 0;
 	keyHeld[Event::Key_1] = 0;
@@ -111,6 +113,8 @@ void GameEngine::Input::Init() {
 	keyHeld[Event::Right] = 0;
 	keyHeld[Event::Home] = 0;
 	keyHeld[Event::End] = 0;
+	keyHeld[Event::Plus] = 0;
+	keyHeld[Event::Minus] = 0;
 }
 
 void GameEngine::Input::CleanUp() {

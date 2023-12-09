@@ -5,12 +5,14 @@
 #include <GameEngine/Graphics/Window.h>
 #include <GameEngine/Input.h>
 #include <GameEngine/Scene.h>
+#include <GameEngine/Time.h>
 #include <GameEngine/SceneManager.h>
 #include <GameEngine/System.h>
 #include <GameEngine/JSON/Configurator.h>
 #include <GameEngine/JSON/StringProperty.h>
 #include <GameEngine/JSON/NumericProperty.h>
 #include <GameEngine/Resources.h>
+#include <GameEngine/Audio.h>
 #include "Tilelayer.h"
 
 class Scene1 : public GameEngine::Scene {
@@ -20,6 +22,8 @@ class Scene1 : public GameEngine::Scene {
 
 	GameEngine::Graphics::Tilemap* map = nullptr;
 	GameEngine::Graphics::Image* displayBuffer = nullptr;
+
+	GameEngine::Audio* audio = nullptr;
 
 	int speed = 0;
 	int scaleX = 0;
@@ -57,6 +61,13 @@ class Scene1 : public GameEngine::Scene {
 						   .find("scaleY")
 						   ->second)
 					 ->GetValue();
+		std::string music = ((StringProperty*)appConfig.GetConfigurations()
+								   ->GetProperties()
+								   .find("backgroundmusic")
+								   ->second)
+								  ->GetValueStripped();
+		audio = new Audio();
+		audio->Load(Resources::Get().GetAsset(music));
 
 		Tilelayer layer;
 		Configurator mapConfig;
@@ -75,6 +86,8 @@ class Scene1 : public GameEngine::Scene {
 			GameEngine::System::Destroy(map);
 		if (displayBuffer)
 			GameEngine::System::Destroy(displayBuffer);
+		if (audio)
+			GameEngine::System::Destroy(audio);
 	}
 
 	virtual void Render() override {
@@ -101,11 +114,26 @@ class Scene1 : public GameEngine::Scene {
 		using namespace GameEngine;
 		using namespace GameEngine::Graphics;
 
+		Time::Update();
+
 		while (Event::GetEvent().Poll()) {
 			if (Event::GetEvent().GetType() == Event::Quit)
 				window->Close();
 
 			Input::HandleEvent();
+
+			if (Input::GetKeyDown(Event::P)) {
+				if (audio->IsPlaying())
+					audio->Stop();
+				else
+					audio->Play();
+			}
+			if (Input::GetKeyDown(Event::Plus)) {
+				audio->SetVolume(audio->GetVolume()+1);
+			}
+			if (Input::GetKeyDown(Event::Minus)) {
+				audio->SetVolume(audio->GetVolume() - 1);
+			}
 
 			if (Input::GetKeyDown(Event::Right))
 				map->Scroll(speed, 0);

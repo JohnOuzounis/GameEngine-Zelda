@@ -3,7 +3,7 @@
 #include <GameEngine/Math.h>
 #include <GameEngine/System.h>
 
-#include<sstream>
+#include <sstream>
 
 using namespace GameEngine::Graphics;
 
@@ -53,11 +53,7 @@ bool GameEngine::Graphics::Tilemap::CanScrollVertical(float dy) const {
 
 void GameEngine::Graphics::Tilemap::Display(Image& dest,
 											const Rect& displayArea) {
-	if (view.x >= 0 && view.y >= 0 &&
-		view.x + view.width <= tilemap->GetWidth() &&
-		view.y + view.height <= tilemap->GetHeight()) {
-		tilemap->BlitScaled(view, dest, displayArea);
-	}
+	tilemap->BlitScaled(view, dest, displayArea);
 }
 
 void GameEngine::Graphics::Tilemap::Scroll(int dx, int dy) {

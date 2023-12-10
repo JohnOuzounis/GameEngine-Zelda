@@ -13,7 +13,7 @@
 #include <GameEngine/JSON/NumericProperty.h>
 #include <GameEngine/Resources.h>
 #include <GameEngine/Audio.h>
-#include "Tilelayer.h"
+#include "TilemapMaker.h"
 
 class Scene1 : public GameEngine::Scene {
    private:
@@ -68,12 +68,13 @@ class Scene1 : public GameEngine::Scene {
 								  ->GetValueStripped();
 		audio = new Audio();
 		audio->Load(Resources::Get().GetAsset(music));
+		audio->SetLoop(true);
 
-		Tilelayer layer;
+		TilemapMaker maker;
 		Configurator mapConfig;
-		mapConfig.Subscibe(&layer);
+		mapConfig.Subscibe(&maker);
 		mapConfig.Configure(Resources::Get().GetResource(mapName));
-		map = layer.MakeTilemap();
+		map = maker.MakeTilemap();
 		map->SetView({0, 0, window->GetWidth(), window->GetHeight()});
 		Image* im = map->GetTilemap();
 		im->Scale(im->GetWidth() * scaleX, im->GetHeight() * scaleY);

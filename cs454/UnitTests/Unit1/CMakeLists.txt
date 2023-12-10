@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.18.4)
 # Executable
 add_executable(unit1 
   "src/main.cpp"
- "src/Tilelayer.h" "src/Unit1.h" "src/Unit1.cpp" "src/Scene1.h")
+ "src/TilemapMaker.h" "src/Unit1.h" "src/Unit1.cpp" "src/Scene1.h")
 
 # Include the 'include' directory for common headers
 target_include_directories(unit1 PRIVATE ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/include)

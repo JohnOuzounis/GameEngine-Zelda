@@ -10,8 +10,8 @@ void Unit1::Init() {
 	SceneManager::GetSceneManager().LoadScene(0);
 
 	this->game.SetFinished([&]() { return !window->IsOpen(); });
-	this->game.SetInput(std::bind(&Unit1::Input, this));
-	this->game.SetRender(std::bind(&Unit1::Render, this));
+	this->game.AddInput(std::bind(&Unit1::Input, this), false);
+	this->game.AddRender(std::bind(&Unit1::Render, this), false);
 }
 
 void Unit1::Input() {

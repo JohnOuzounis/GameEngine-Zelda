@@ -11,7 +11,7 @@
 #include <string>
 #include <GameEngine/Resources.h>
 
-class Tilelayer : public GameEngine::Json::IConfigurable {
+class TilemapMaker : public GameEngine::Json::IConfigurable {
    private:
 	int width = 0, height = 0, tilew = 0, tileh = 0;
 	std::string tileset;

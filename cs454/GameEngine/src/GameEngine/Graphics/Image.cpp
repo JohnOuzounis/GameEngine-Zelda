@@ -29,9 +29,14 @@ Color* GameEngine::Graphics::Image::GetColorAt(const Point& x) {
 
 	Uint32* pixels = static_cast<Uint32*>(this->surface->pixels);
 	Uint32 pixel = pixels[x.y * this->surface->w + x.x];
-	Uint8 red, green, blue;
-	SDL_GetRGB(pixel, this->surface->format, &red, &green, &blue);
-	return new Color(red, green, blue);
+	Uint8 red, green, blue, alpha;
+	SDL_GetRGBA(pixel, this->surface->format, &red, &green, &blue, &alpha);
+	return new Color(red, green, blue, alpha);
+}
+
+Color* GameEngine::Graphics::Image::GetPixelColor(const Uint32 pixel) const {
+	Color* color = new Color();
+	SDL_GetRGBA(pixel, this->surface->format, &color->r, &color->g, &color->b, &color->a);
 }
 
 Uint32 GameEngine::Graphics::Image::GetColorKey() const {
@@ -171,6 +176,17 @@ void GameEngine::Graphics::Image::Scale(int width, int height) {
 	SDL_FreeSurface(tmp);
 
 	surface = tmp2;
+}
+
+void GameEngine::Graphics::Image::AccessPixels(std::function<void(const Uint32)> access) {
+	assert(surface);
+	this->Lock();
+	Uint32* pixels = static_cast<Uint32*>(this->GetSurface()->pixels);
+	int pixelCount = this->GetWidth() * this->GetHeight();
+	for (int i = 0; i < pixelCount; i++) {
+		access(pixels[i]);
+	}
+	this->Unlock();
 }
 
 Image* GameEngine::Graphics::Image::Create(const int width,

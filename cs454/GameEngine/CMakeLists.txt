@@ -48,7 +48,7 @@ set(ENGINE_SOURCES
   src/GameEngine/Time.cpp
   include/GameEngine/JSON/ArrayProperty.h
   src/GameEngine/JSON/ArrayProperty.cpp
- include/GameEngine/App.h "include/GameEngine/Game.h" "src/GameEngine/Game.cpp" "include/GameEngine/Resources.h" "include/GameEngine/Graphics/Tilemap.h" "src/GameEngine/Graphics/Tilemap.cpp" "include/GameEngine/Scene.h" "include/GameEngine/SceneManager.h")
+ include/GameEngine/App.h "include/GameEngine/Game.h" "src/GameEngine/Game.cpp" "include/GameEngine/Resources.h" "include/GameEngine/Graphics/Tilemap.h" "src/GameEngine/Graphics/Tilemap.cpp" "include/GameEngine/Scene.h" "include/GameEngine/SceneManager.h" "include/GameEngine/Graphics/Gridmap.h" "src/GameEngine/Graphics/Gridmap.cpp")
 
 
 # Create a library for the GameEngine

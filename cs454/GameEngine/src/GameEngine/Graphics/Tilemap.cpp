@@ -32,6 +32,7 @@ GameEngine::Graphics::Tilemap::Tilemap(int w,
 
 GameEngine::Graphics::Tilemap::~Tilemap() {
 	System::Destroy(tilemap);
+	System::Destroy(gridmap);
 	map.clear();
 }
 
@@ -61,4 +62,10 @@ void GameEngine::Graphics::Tilemap::Scroll(int dx, int dy) {
 
 	view.x = Math::Clamp(view.x, 0, tilemap->GetWidth() - view.width - 1);
 	view.y = Math::Clamp(view.y, 0, tilemap->GetHeight() - view.height - 1);
+}
+
+void GameEngine::Graphics::Tilemap::SetGridmap(int gridTileWidth,
+											   int gridTileHeight) {
+	gridmap = new Gridmap(totalRows, totalCols, tileWidth, tileHeight,
+						  gridTileWidth, gridTileHeight);
 }

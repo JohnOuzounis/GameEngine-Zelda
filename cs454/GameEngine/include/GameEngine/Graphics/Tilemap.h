@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/Graphics/Image.h>
 #include <GameEngine/Graphics/Rect.h>
+#include <GameEngine/Graphics/Gridmap.h>
 #include <string>
 #include <vector>
 
@@ -11,6 +12,7 @@ class Tilemap {
 	Rect view;
 	Image* tileset = nullptr;
 	Image* tilemap = nullptr;
+	Gridmap* gridmap = nullptr;
 
 	int totalRows = 0, totalCols = 0;
 	int tilesetRows = 0, tilesetCols = 0;
@@ -46,6 +48,9 @@ class Tilemap {
 
 	const Rect& GetView() const { return view; }
 	void SetView(const Rect& view) { this->view = view; }
+
+	void SetGridmap(int gridTileWidth, int gridTileHeight);
+	Gridmap* GetGridmap() const { return gridmap; }
 
 	bool CanScrollHorizontal(float dx) const;
 	bool CanScrollVertical(float dy) const;

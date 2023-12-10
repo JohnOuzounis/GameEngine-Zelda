@@ -6,6 +6,7 @@
 #include <GameEngine/Graphics/Color.h>
 #include <GameEngine/Graphics/Rect.h>
 #include <string>
+#include <functional>
 
 namespace GameEngine {
 namespace Graphics {
@@ -28,6 +29,7 @@ class Image {
 	void Destroy();
 
 	Color* GetColorAt(const Point& x);
+	Color* GetPixelColor(const Uint32) const;
 	int GetWidth() const { return this->surface->w; }
 	int GetHeight() const { return this->surface->h; }
 	Uint8 GetBitDepth() const { return this->surface->format->BitsPerPixel; }
@@ -61,6 +63,7 @@ class Image {
 	void Clear(const Rect& rect, const Color& color);
 
 	void Scale(int width, int height);
+	void AccessPixels(std::function<void(const Uint32)> access);
 
 	Image* Copy() const {
 		SDL_Surface* surface = SDL_ConvertSurface(this->surface, this->surface->format, 0);

@@ -37,6 +37,7 @@ Color* GameEngine::Graphics::Image::GetColorAt(const Point& x) {
 Color* GameEngine::Graphics::Image::GetPixelColor(const Uint32 pixel) const {
 	Color* color = new Color();
 	SDL_GetRGBA(pixel, this->surface->format, &color->r, &color->g, &color->b, &color->a);
+	return color;
 }
 
 Uint32 GameEngine::Graphics::Image::GetColorKey() const {

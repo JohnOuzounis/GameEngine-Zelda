@@ -30,7 +30,7 @@ class TilemapMaker : public GameEngine::Json::IConfigurable {
 			prop = ag->GetProperties();
 		}
 
-		return ag != nullptr && ag->GetId() == "tilemap" && prop.size() == 6;
+		return ag != nullptr && ag->GetId() == "tilemap";
 	}
 	virtual void Configure(
 		const GameEngine::Json::Property& property) override {

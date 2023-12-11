@@ -5,7 +5,7 @@ add_executable(unit2
   "src/main.cpp"
  "src/Unit2.h"
  "../Unit1/src/Unit1.h"
- "../Unit1/src/Unit1.cpp" )
+ "../Unit1/src/Unit1.cpp"  "src/Unit2.cpp")
 
 # Include the 'include' directory for common headers
 target_include_directories(unit2 PRIVATE ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/include)
@@ -23,3 +23,24 @@ target_link_libraries(unit2 ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/boost/libbo
 											   
 # Link the GameEngine source files
 target_link_libraries(unit2 gameengine)
+
+
+# Executable
+add_executable(unit2grid "src/GridMaker.cpp" "src/GridMaker.h" "../Unit1/src/TilemapMaker.h")
+
+# Include the 'include' directory for common headers
+target_include_directories(unit2grid PRIVATE ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/include)
+target_include_directories(unit2grid PRIVATE ${CMAKE_SOURCE_DIR}/cs454/GameEngine/include)
+
+target_link_libraries(unit2grid ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/sdl/SDL2.lib)
+target_link_libraries(unit2grid ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/sdl/SDL2main.lib)
+target_link_libraries(unit2grid ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/sdl/SDL2_image.lib)
+target_link_libraries(unit2grid ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/sdl/SDL2_mixer.lib)
+target_link_libraries(unit2grid ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/sdl/SDL2_ttf.lib)
+					  						   
+target_link_libraries(unit2grid ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/boost/libboost_chrono-vc143-mt-gd-x64-1_83.lib)
+target_link_libraries(unit2grid ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/boost/libboost_json-vc143-mt-gd-x64-1_83.lib)
+target_link_libraries(unit2grid ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/boost/libboost_container-vc143-mt-gd-x64-1_83.lib)
+											   
+# Link the GameEngine source files
+target_link_libraries(unit2grid gameengine)

@@ -5,7 +5,6 @@
 #include <GameEngine/Graphics/Window.h>
 #include <GameEngine/Input.h>
 #include <GameEngine/Scene.h>
-#include <GameEngine/Time.h>
 #include <GameEngine/SceneManager.h>
 #include <GameEngine/System.h>
 #include <GameEngine/JSON/Configurator.h>
@@ -16,7 +15,7 @@
 #include "TilemapMaker.h"
 
 class Scene1 : public GameEngine::Scene {
-   private:
+   public:
 	GameEngine::Graphics::Window* window;
 	GameEngine::Graphics::Renderer* renderer;
 
@@ -29,7 +28,6 @@ class Scene1 : public GameEngine::Scene {
 	int scaleX = 0;
 	int scaleY = 0;
 
-   public:
 	Scene1(GameEngine::Graphics::Window* window,
 		   GameEngine::Graphics::Renderer* renderer)
 		: window(window), renderer(renderer) {}
@@ -114,8 +112,6 @@ class Scene1 : public GameEngine::Scene {
 	virtual void Input() override {
 		using namespace GameEngine;
 		using namespace GameEngine::Graphics;
-
-		Time::Update();
 
 		while (Event::GetEvent().Poll()) {
 			if (Event::GetEvent().GetType() == Event::Quit)

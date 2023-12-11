@@ -1,3 +1,4 @@
+#pragma once
 #include <GameEngine/Graphics/Rect.h>
 
 #define GRID_THIN_AIR_MASK 0x0000	   // element is ignored
@@ -42,6 +43,7 @@ class Gridmap {
 	GridIndex GetGridTile(int row, int col) const;
 
 	GridIndex* GetGrid() const { return grid; }
+	int GetTotal() const { return total; }
 	int GetGridTileWidth() const { return gridTileWidth; }
 	int GetGridTileHeight() const { return gridTileHeight; }
 	int GetGridBlockRows() const { return gridBlockRows; }

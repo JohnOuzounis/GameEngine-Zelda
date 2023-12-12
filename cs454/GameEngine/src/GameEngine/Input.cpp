@@ -3,9 +3,10 @@
 using namespace GameEngine;
 using namespace GameEngine::Graphics;
 
-std::map<SDL_Keycode, bool> Input::keyStates;
-std::map<Input::MouseButton, bool> Input::mouseStates;
-std::map<SDL_Keycode, int> Input::keyHeld;
+std::unordered_map<SDL_Keycode, bool> Input::keyStates;
+std::unordered_map<Input::MouseButton, bool> Input::mouseStates;
+std::unordered_map<SDL_Keycode, int> Input::keyHeld;
+std::vector<Input::InputEvent> Input::events;
 
 void GameEngine::Input::Init() {
 	mouseStates[MouseButton::MouseLeft] = false;
@@ -121,10 +122,21 @@ void GameEngine::Input::CleanUp() {
 	keyStates.clear();
 	keyHeld.clear();
 	mouseStates.clear();
+	events.clear();
+}
+
+void Input::ClearEvents() {
+	events.clear();
 }
 
 void GameEngine::Input::HandleEvent() {
+	InputEvent event;
+
 	if (Event::GetEvent().GetType() == Event::KeyDown) {
+		event.type = Event::KeyDown;
+		event.key = Event::GetEvent().GetKeyPressed();
+		events.push_back(event);
+
 		keyStates[Event::GetEvent().GetKeyPressed()] = true;
 		keyHeld[Event::GetEvent().GetKeyPressed()] =
 			(keyHeld[Event::GetEvent().GetKeyPressed()] > 3)
@@ -132,6 +144,10 @@ void GameEngine::Input::HandleEvent() {
 				: keyHeld[Event::GetEvent().GetKeyPressed()] + 1;
 	}
 	if (Event::GetEvent().GetType() == Event::KeyUp) {
+		event.type = Event::KeyUp;
+		event.key = Event::GetEvent().GetKeyPressed();
+		events.push_back(event);
+
 		keyStates[Event::GetEvent().GetKeyPressed()] = false;
 		keyHeld[Event::GetEvent().GetKeyPressed()] = 0;
 		assert(keyHeld[Event::GetEvent().GetKeyPressed()] >= 0);
@@ -139,22 +155,34 @@ void GameEngine::Input::HandleEvent() {
 
 	if (Event::GetEvent().GetType() == Event::MouseButtonDown)
 		if (Event::GetEvent().GetButton().button <= 3) {
+			event.type = Event::MouseButtonDown;
+			event.mouse = (MouseButton)Event::GetEvent().GetButton().button;
 			mouseStates[(MouseButton)Event::GetEvent().GetButton().button] = true;
 		}
 
 	if (Event::GetEvent().GetType() == Event::MouseButtonUp)
 		if (Event::GetEvent().GetButton().button <= 3)
 		{
+			event.type = Event::MouseButtonUp;
+			event.mouse = (MouseButton)Event::GetEvent().GetButton().button;
 			mouseStates[(MouseButton)Event::GetEvent().GetButton().button] = false;
 		}
 }
 
 bool GameEngine::Input::GetKeyDown(Graphics::Event::Keycode key) {
-	return keyStates[key] && Event::GetEvent().GetType() == Event::KeyDown;
+	for (auto& event : events) {
+		if (event.type == Event::KeyDown && keyStates[key])
+			return true;
+	}
+	return false;
 }
 
 bool GameEngine::Input::GetKeyUp(Graphics::Event::Keycode key) {
-	return !keyStates[key] && Event::GetEvent().GetType() == Event::KeyUp;
+	for (auto& event : events) {
+		if (event.type == Event::KeyUp && !keyStates[key])
+			return true;
+	}
+	return false;
 }
 
 bool GameEngine::Input::GetKey(Graphics::Event::Keycode key) {
@@ -162,13 +190,19 @@ bool GameEngine::Input::GetKey(Graphics::Event::Keycode key) {
 }
 
 bool GameEngine::Input::GetMouseButtonDown(MouseButton key) {
-	return mouseStates[key] &&
-		   Event::GetEvent().GetType() == Event::MouseButtonDown;
+	for (auto& event : events) {
+		if (event.type == Event::MouseButtonDown && mouseStates[key])
+			return true;
+	}
+	return false;
 }
 
 bool GameEngine::Input::GetMouseButtonUp(MouseButton key) {
-	return !mouseStates[key] &&
-		   Event::GetEvent().GetType() == Event::MouseButtonUp;
+	for (auto& event : events) {
+		if (event.type == Event::MouseButtonUp && !mouseStates[key])
+			return true;
+	}
+	return false;
 }
 
 bool GameEngine::Input::GetMouse(MouseButton key) {

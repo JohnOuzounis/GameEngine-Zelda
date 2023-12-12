@@ -113,43 +113,43 @@ class Scene1 : public GameEngine::Scene {
 		using namespace GameEngine;
 		using namespace GameEngine::Graphics;
 
+		Input::ClearEvents();
 		while (Event::GetEvent().Poll()) {
 			if (Event::GetEvent().GetType() == Event::Quit)
 				window->Close();
 
 			Input::HandleEvent();
-
-			if (Input::GetKeyDown(Event::P)) {
-				if (audio->IsPlaying())
-					audio->Stop();
-				else
-					audio->Play();
-			}
-			if (Input::GetKeyDown(Event::Plus)) {
-				audio->SetVolume(audio->GetVolume()+1);
-			}
-			if (Input::GetKeyDown(Event::Minus)) {
-				audio->SetVolume(audio->GetVolume() - 1);
-			}
-
-			if (Input::GetKeyDown(Event::Right))
-				map->Scroll(speed, 0);
-			if (Input::GetKeyDown(Event::Left))
-				map->Scroll(-speed, 0);
-			if (Input::GetKeyDown(Event::Down))
-				map->Scroll(0, speed);
-			if (Input::GetKeyDown(Event::Up))
-				map->Scroll(0, -speed);
-			if (Input::GetKeyDown(Event::Home))
-				map->SetView(
-					{0, 0, map->GetView().width, map->GetView().height});
-			if (Input::GetKeyDown(Event::End)) {
-				map->SetView({map->GetTilemap()->GetWidth(),
-							  map->GetTilemap()->GetHeight(),
-							  map->GetView().width, map->GetView().height});
-				map->Scroll(1, 1);
-			}
 		}
+		if (Input::GetKeyDown(Event::P)) {
+			if (audio->IsPlaying())
+				audio->Stop();
+			else
+				audio->Play();
+		}
+		if (Input::GetKeyDown(Event::Plus)) {
+			audio->SetVolume(audio->GetVolume() + 1);
+		}
+		if (Input::GetKeyDown(Event::Minus)) {
+			audio->SetVolume(audio->GetVolume() - 1);
+		}
+
+		if (Input::GetKeyDown(Event::Right))
+			map->Scroll(speed, 0);
+		if (Input::GetKeyDown(Event::Left))
+			map->Scroll(-speed, 0);
+		if (Input::GetKeyDown(Event::Down))
+			map->Scroll(0, speed);
+		if (Input::GetKeyDown(Event::Up))
+			map->Scroll(0, -speed);
+		if (Input::GetKeyDown(Event::Home))
+			map->SetView({0, 0, map->GetView().width, map->GetView().height});
+		if (Input::GetKeyDown(Event::End)) {
+			map->SetView({map->GetTilemap()->GetWidth(),
+						  map->GetTilemap()->GetHeight(), map->GetView().width,
+						  map->GetView().height});
+			map->Scroll(1, 1);
+		}
+
 		if (Input::GetMouse(Input::MouseLeft)) {
 			int x = Input::GetMouseState().mouseX;
 			int y = Input::GetMouseState().mouseY;

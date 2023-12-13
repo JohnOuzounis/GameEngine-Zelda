@@ -106,20 +106,13 @@ class Scene1 : public GameEngine::Scene {
 		renderer->Copy(
 			tex, {0, 0, displayBuffer->GetWidth(), displayBuffer->GetHeight()},
 			{0, 0, window->GetWidth(), window->GetHeight()});
-		renderer->Render();
+		//renderer->Render();
 	}
 
 	virtual void Input() override {
 		using namespace GameEngine;
 		using namespace GameEngine::Graphics;
 
-		Input::ClearEvents();
-		while (Event::GetEvent().Poll()) {
-			if (Event::GetEvent().GetType() == Event::Quit)
-				window->Close();
-
-			Input::HandleEvent();
-		}
 		if (Input::GetKeyDown(Event::P)) {
 			if (audio->IsPlaying())
 				audio->Stop();

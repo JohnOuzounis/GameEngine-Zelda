@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <cassert>
+#include <functional>
 
 namespace GameEngine {
 namespace Graphics {
@@ -36,8 +37,15 @@ class Color {
 		return SDL_MapRGBA(format, this->r, this->g, this->b, this->a);
 	}
 
-	bool operator!=(Color c) {
-		return c.r != this->r && c.g != this->g && c.b != this->b;
+	bool operator!=(Color c) const {
+		return c.r != this->r || c.g != this->g || c.b != this->b ||
+			   c.a != this->a;
+	}
+
+	RGB hashRGB() {
+		return (RGB)std::hash<GameEngine::Graphics::Color::RGB>()(r) ^
+			   (RGB)std::hash<GameEngine::Graphics::Color::RGB>()(g) ^
+			   (RGB)std::hash<GameEngine::Graphics::Color::RGB>()(b);
 	}
 };
 

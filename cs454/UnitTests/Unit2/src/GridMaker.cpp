@@ -28,22 +28,22 @@ int main(int argc, char** argv) {
 	config.Configure(Resources::Get().GetResource(path));
 
 	int width =
-		((NumericProperty*)((AggregateProperty*)config.GetConfigurations()
-								->GetProperties()
-								.find("gridmap")
-								->second)
-			 ->GetProperties()
-			 .find("tilewidth")
-			 ->second)
+		(int)((NumericProperty*)((AggregateProperty*)config.GetConfigurations()
+									 ->GetProperties()
+									 .find("gridmap")
+									 ->second)
+				  ->GetProperties()
+				  .find("tilewidth")
+				  ->second)
 			->GetValue();
 	int height =
-		((NumericProperty*)((AggregateProperty*)config.GetConfigurations()
-								->GetProperties()
-								.find("gridmap")
-								->second)
-			 ->GetProperties()
-			 .find("tileheight")
-			 ->second)
+		(int)((NumericProperty*)((AggregateProperty*)config.GetConfigurations()
+									 ->GetProperties()
+									 .find("gridmap")
+									 ->second)
+				  ->GetProperties()
+				  .find("tileheight")
+				  ->second)
 			->GetValue();
 
 	GridMaker maker(Resources::Get().GetResource(path));
@@ -51,8 +51,17 @@ int main(int argc, char** argv) {
 	GameEngine::Graphics::Gridmap* grid = new GameEngine::Graphics::Gridmap(
 		map->GetRows(), map->GetColumns(), map->GetTileWidth(),
 		map->GetTileHeight(), width, height);
-	maker.ComputeTileGridBlocks1(map, grid);
+
+	Uint32 c;
+	Color* trans = new Color(123, 123, 123);
+	if (SDL_GetColorKey(map->GetTileset()->GetSurface(), &c) != -1)
+		trans = map->GetTileset()->GetPixelColor(c);
+	unsigned char thres = 0;
+
+	maker.ComputeTileGridBlocks2(map, grid, map->GetTileset(), *trans, thres);
+	//maker.ComputeTileGridBlocks1(map, grid);
 	maker.Save();
+	delete trans;
 
 	return EXIT_SUCCESS;
 }

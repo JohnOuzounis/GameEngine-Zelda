@@ -20,10 +20,10 @@ class Tilemap {
 	int width = 0, height = 0;
 	std::vector<int> map;
 
+   public:
 	int GetX(int index) const { return (index % tilesetCols) * tileWidth; }
 	int GetY(int index) const { return (index / tilesetCols) * tileHeight; }
 
-   public:
 	Tilemap(int w,
 			int h,
 			int tw,
@@ -41,6 +41,7 @@ class Tilemap {
 	void PutTile(int row, int col, int index);
 
 	Image* GetTilemap() const { return tilemap; }
+	Image* GetTileset() const { return tileset; }
 	int GetTileWidth() const { return tileWidth; }
 	int GetTileHeight() const { return tileHeight; }
 	int GetRows() const { return totalRows; }

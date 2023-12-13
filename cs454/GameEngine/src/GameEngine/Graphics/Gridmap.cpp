@@ -24,7 +24,7 @@ void GameEngine::Graphics::Gridmap::SetGridTileTopSolidOnly(int row, int col) {
 bool GameEngine::Graphics::Gridmap::CanPassGridTile(int row,
 													int col,
 													GridIndex flags) const {
-	return (GetGridTile(row, col) & flags) != 0;
+	return (GetGridTile(row, col) & flags) == 0;
 }
 
 GameEngine::Graphics::Gridmap::Gridmap(int rows,

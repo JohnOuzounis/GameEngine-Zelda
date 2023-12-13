@@ -11,7 +11,7 @@ class Game {
 
    private:
 	std::vector<Action> render, anim, input, ai, physics, destruct, collisions,
-		user;
+		user, quit;
 	Predicate done;
 
 	void InvokeAll(const std::vector<Action>& actions) {
@@ -67,6 +67,10 @@ class Game {
 		AddAction(user, action, first);
 	}
 
+	void AddQuit(const Action& action, bool first) {
+		AddAction(quit, action, first);
+	}
+
 	void SetFinished(const Predicate& finished) { done = finished; }
 
 	void Render() { InvokeAll(render); }
@@ -77,6 +81,7 @@ class Game {
 	void CollisionChecking() { InvokeAll(collisions); }
 	void CommitDestructions() { InvokeAll(destruct); }
 	void UserCode() { InvokeAll(user); }
+	void Quit() { InvokeAll(quit); }
 
 	bool IsFinished() { return (done) ? done() : true; }
 	void MainLoop();

@@ -49,6 +49,8 @@ class Gridmap {
 	int GetGridBlockRows() const { return gridBlockRows; }
 	int GetGridBlockColumns() const { return gridBlockColumns; }
 	int GetGridTilesPerTile() const { return gridTilesPerTile; }
+	int GetGridRows() const { return totalRows; }
+	int GetGridColumns() const { return totalColumns; }
 
 	void SetSolidGridTile(int col, int row);
 	void SetEmptyGridTile(int row, int col);

@@ -35,6 +35,10 @@ class Color {
 		assert(format);
 		return SDL_MapRGBA(format, this->r, this->g, this->b, this->a);
 	}
+
+	bool operator!=(Color c) {
+		return c.r != this->r && c.g != this->g && c.b != this->b;
+	}
 };
 
 }  // namespace Graphics

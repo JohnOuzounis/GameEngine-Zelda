@@ -3,5 +3,6 @@
   "backgroundmusic": "audio/specialz.mp3",
   "scrollspeed": 5,
   "scaleX": 1,
-  "scaleY": 1
+  "scaleY": 1,
+  "playerspeed": 4
 }

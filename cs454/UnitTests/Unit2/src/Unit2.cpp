@@ -14,6 +14,12 @@ void Unit2::Init() {
 	Configurator appConfig;
 	appConfig.Configure(Resources::Get().GetResource("config/app.json"));
 
+	playerSpeed = (int)((NumericProperty*)appConfig.GetConfigurations()
+							->GetProperties()
+							.find("playerspeed")
+							->second)
+					  ->GetValue();
+
 	std::string path = ((StringProperty*)appConfig.GetConfigurations()
 							->GetProperties()
 							.find("map")
@@ -60,10 +66,10 @@ void Unit2::Init() {
 
 	ArrayProperty* array =
 		(ArrayProperty*)gridConfig->GetProperties().find("map")->second;
-	this->gridmap =
-		new Gridmap(tilemapHeight / tileHeight, tilemapWidth / tileWidth,
-					tileWidth, tileHeight, gridWidth, gridHeight);
+	this->gridmap = new Gridmap(tilemapHeight, tilemapWidth, tileWidth,
+								tileHeight, gridWidth, gridHeight);
 
+	assert(gridmap->GetTotal() == array->GetSize());
 	Gridmap::GridIndex* map = this->gridmap->GetGrid();
 	for (size_t i = 0; i < gridmap->GetTotal(); i++) {
 		map[i] =
@@ -71,7 +77,7 @@ void Unit2::Init() {
 	}
 
 	playerImage = Image::Create(tileWidth, tileHeight, {255, 255, 255, 255});
-	playerPosition = {0, 0, tileWidth, tileHeight};
+	playerPosition = {100, 150, tileWidth, tileHeight};
 	actionLayer = Image::Create(tilemapWidth * tileWidth,
 								tilemapHeight * tileHeight, {0, 0, 0, 255});
 	actionLayer->SetColorKey({0, 0, 0, 255}, true);
@@ -79,6 +85,8 @@ void Unit2::Init() {
 		Image::Create(this->unit1.window->GetWidth(),
 					  this->unit1.window->GetHeight(), {0, 0, 0, 255});
 	displayBuffer->SetColorKey({0, 0, 0, 255}, true);
+
+	controller = new CharacterController(playerPosition, *gridmap);
 }
 
 void Unit2::Render() {
@@ -97,13 +105,21 @@ void Unit2::Render() {
 
 	this->unit1.renderer->Copy(
 		tex, {0, 0, displayBuffer->GetWidth(), displayBuffer->GetHeight()},
-		{0, 0, this->unit1.window->GetWidth(), this->unit1.window->GetHeight()});
+		{0, 0, this->unit1.window->GetWidth(),
+		 this->unit1.window->GetHeight()});
 	this->unit1.renderer->Render();
 }
 
 void Unit2::Input() {
-	if (Input::GetMouse(Input::MouseRight)) {
-		playerPosition.x = Input::GetMouseState().mouseX;
-		playerPosition.y = Input::GetMouseState().mouseY;
-	}
+	int dx = 0, dy = 0;
+	if (Input::GetKeyDown(Event::A))
+		dx = -playerSpeed;
+	if (Input::GetKeyDown(Event::D))
+		dx = playerSpeed;
+	if (Input::GetKeyDown(Event::W))
+		dy = -playerSpeed;
+	if (Input::GetKeyDown(Event::S))
+		dy = playerSpeed;
+
+	controller->Move(dx, dy);
 }

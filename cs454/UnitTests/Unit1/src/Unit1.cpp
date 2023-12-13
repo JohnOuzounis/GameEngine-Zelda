@@ -12,6 +12,7 @@ void Unit1::Init() {
 	this->game.SetFinished([&]() { return !window->IsOpen(); });
 	this->game.AddInput(std::bind(&Unit1::Input, this), false);
 	this->game.AddRender(std::bind(&Unit1::Render, this), false);
+	this->game.AddQuit([&]() { window->Close(); }, false);
 }
 
 void Unit1::Input() {

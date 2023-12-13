@@ -96,32 +96,53 @@ class GridMaker {
 		for (auto row = 0; row < map->GetRows(); ++row)
 			for (auto col = 0; col < map->GetColumns(); ++col) {
 				auto index = map->GetTile(row, col);
+
 				tileset->Blit(
 					{map->GetX(index), map->GetY(index), map->GetTileWidth(),
 					 map->GetTileHeight()},
 					*tileElem,
 					{0, 0, map->GetTileWidth(), map->GetTileHeight()});
+
 				if (IsTileIndexAssumedEmpty(index)) {
-					emptyTileColors.Insert(
-						*tileElem, index);	// assume tile colors to be empty
-					memset(grid, GRID_EMPTY_TILE,
-						   gridmap->GetGridTilesPerTile());
-					grid += gridmap->GetGridTilesPerTile();
+					// Assume tile colors to be empty
+					emptyTileColors.Insert(*tileElem, index);
+
+					for (int i = 0; i < gridmap->GetGridBlockRows(); ++i)
+						for (int j = 0; j < gridmap->GetGridBlockColumns();
+							 ++j) {
+							auto gridRow =
+								row * gridmap->GetGridBlockRows() + i;
+							auto gridCol =
+								col * gridmap->GetGridBlockColumns() + j;
+							grid[gridRow * gridmap->GetGridColumns() +
+								 gridCol] = GRID_EMPTY_TILE;
+						}
 				} else {
-					for (auto i = 0; i < gridmap->GetGridTilesPerTile(); ++i) {
-						auto x = i % gridmap->GetGridBlockRows();
-						auto y = i / gridmap->GetGridBlockRows();
-						tileElem->Blit({x * gridmap->GetGridTileWidth(),
-										y * gridmap->GetGridTileHeight(),
-										gridmap->GetGridTileWidth(),
-										gridmap->GetGridTileHeight()},
-									   *gridElem,
-									   {0, 0, gridmap->GetGridTileWidth(),
-										gridmap->GetGridTileHeight()});
-						auto isEmpty = ComputeIsGridIndexEmpty(
-							gridElem, transcolor, solidThreshold);
-						*grid++ = isEmpty ? GRID_EMPTY_TILE : GRID_SOLID_TILE;
-					}
+					for (int i = 0; i < gridmap->GetGridBlockRows(); ++i)
+						for (int j = 0; j < gridmap->GetGridBlockColumns();
+							 ++j) {
+							auto x = j * gridmap->GetGridTileWidth();
+							auto y = i * gridmap->GetGridTileHeight();
+
+							tileElem->Blit({x, y, gridmap->GetGridTileWidth(),
+											gridmap->GetGridTileHeight()},
+										   *gridElem,
+										   {0, 0, gridmap->GetGridTileWidth(),
+											gridmap->GetGridTileHeight()});
+
+							// Check if the grid location contains colors
+							// assumed to be empty
+							auto isEmpty = ComputeIsGridIndexEmpty(
+								gridElem, transcolor, solidThreshold);
+
+							auto gridRow =
+								row * gridmap->GetGridBlockRows() + i;
+							auto gridCol =
+								col * gridmap->GetGridBlockColumns() + j;
+							grid[gridRow * gridmap->GetGridColumns() +
+								 gridCol] =
+								isEmpty ? GRID_EMPTY_TILE : GRID_SOLID_TILE;
+						}
 				}
 			}
 		delete tileElem;

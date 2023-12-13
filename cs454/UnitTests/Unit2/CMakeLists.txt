@@ -26,7 +26,7 @@ target_link_libraries(unit2 gameengine)
 
 
 # Executable
-add_executable(unit2grid "src/GridMaker.cpp" "src/GridMaker.h" "../Unit1/src/TilemapMaker.h")
+add_executable(unit2grid "src/GridMaker.cpp" "src/GridMaker.h" "../Unit1/src/TilemapMaker.h" "src/TileColorHolder.h")
 
 # Include the 'include' directory for common headers
 target_include_directories(unit2grid PRIVATE ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/include)

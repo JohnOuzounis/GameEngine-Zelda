@@ -2,6 +2,7 @@
 #include <GameEngine/Resources.h>
 #include <GameEngine/Graphics/Gridmap.h>
 #include <GameEngine/Graphics/Image.h>
+#include <GameEngine/CharacterController.h>
 #include "../../Unit1/src/Unit1.h"
 
 using namespace GameEngine;
@@ -14,9 +15,13 @@ class Unit2 : public App {
 
    public:
 	Unit1 unit1;
+	
 	Gridmap* gridmap;
 	Image* playerImage;
 	Rect playerPosition;
+	int playerSpeed = 0;
+	CharacterController* controller;
+
 	Image* actionLayer;
 	Image* displayBuffer;
 
@@ -31,6 +36,7 @@ class Unit2 : public App {
 		unit1.Clear();
 		System::Destroy(gridmap);
 		System::Destroy(playerImage);
+		System::Destroy(controller);
 	}
 	virtual void Load() override {
 		unit1.Load();

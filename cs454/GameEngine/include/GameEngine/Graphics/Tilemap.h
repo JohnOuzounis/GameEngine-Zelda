@@ -10,6 +10,8 @@ namespace Graphics {
 class Tilemap {
    private:
 	Rect view;
+	Rect bounds;
+	
 	Image* tileset = nullptr;
 	Image* tilemap = nullptr;
 	Gridmap* gridmap = nullptr;
@@ -49,6 +51,10 @@ class Tilemap {
 
 	const Rect& GetView() const { return view; }
 	void SetView(const Rect& view) { this->view = view; }
+
+	const Rect& GetBounds() const { return bounds; }
+	void SetBounds(const Rect& bounds);
+	void RemoveBounds() { bounds = {0, 0, 0, 0}; }
 
 	void SetGridmap(int gridTileWidth, int gridTileHeight);
 	Gridmap* GetGridmap() const { return gridmap; }

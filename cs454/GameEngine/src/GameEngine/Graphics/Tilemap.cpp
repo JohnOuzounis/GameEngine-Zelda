@@ -16,6 +16,7 @@ GameEngine::Graphics::Tilemap::Tilemap(int w,
 	: width(w), height(h), tileWidth(tw), tileHeight(th), map(map) {
 	tileset = ImageLoader::GetImageLoader().Load(tilesetPath);
 	view = Rect(0, 0, 0, 0);
+	bounds = Rect(0, 0, 0, 0);
 
 	totalCols = width / tileWidth;
 	totalRows = height / tileHeight;
@@ -37,6 +38,9 @@ GameEngine::Graphics::Tilemap::~Tilemap() {
 }
 
 void GameEngine::Graphics::Tilemap::PutTile(int row, int col, int index) {
+	if (index < 0)	// empty tile
+		return;
+
 	int x = GetX(index), y = GetY(index);
 	int xx = col * tileWidth, yy = row * tileHeight;
 
@@ -60,12 +64,26 @@ void GameEngine::Graphics::Tilemap::Display(Image& dest,
 void GameEngine::Graphics::Tilemap::Scroll(int dx, int dy) {
 	view.Move(dx, dy);
 
-	view.x = Math::Clamp(view.x, 0, tilemap->GetWidth() - view.width - 1);
-	view.y = Math::Clamp(view.y, 0, tilemap->GetHeight() - view.height - 1);
+	if (!bounds.IsEmpty()) {
+		view.x = Math::Clamp(view.x, bounds.x,
+							 bounds.x + bounds.width - view.width - 1);
+		view.y = Math::Clamp(view.y, bounds.y,
+							 bounds.y + bounds.height - view.height - 1);
+	} else {
+		view.x = Math::Clamp(view.x, 0, tilemap->GetWidth() - view.width - 1);
+		view.y = Math::Clamp(view.y, 0, tilemap->GetHeight() - view.height - 1);
+	}
 }
 
 void GameEngine::Graphics::Tilemap::SetGridmap(int gridTileWidth,
 											   int gridTileHeight) {
 	gridmap = new Gridmap(totalRows, totalCols, tileWidth, tileHeight,
 						  gridTileWidth, gridTileHeight);
+}
+
+void GameEngine::Graphics::Tilemap::SetBounds(const Rect& bounds) {
+	assert(bounds.width >= view.width && bounds.height >= view.height);
+	assert(bounds.width <= tilemap->GetWidth() && bounds.height <= tilemap->GetHeight());
+
+	this->bounds = bounds;
 }

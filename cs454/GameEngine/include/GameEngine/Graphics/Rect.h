@@ -54,6 +54,11 @@ class Rect {
 		x += dx;
 		y += dy;
 	}
+
+	void MoveTo(int x, int y) {
+		this->x = x;
+		this->y = y;
+	}
 };
 
 }  // namespace Graphics

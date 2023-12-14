@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.18.4)
 
 # Executable
-add_executable(unit3 "src/main.cpp")
+add_executable(unit3 "src/main.cpp" "src/Unit3.h" "src/Unit3.cpp")
 
 # Include the 'include' directory for common headers
 target_include_directories(unit3 PRIVATE ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/include)
@@ -17,3 +17,5 @@ target_link_libraries(unit3 ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/boost/libbo
 target_link_libraries(unit3 ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/boost/libboost_json-vc143-mt-gd-x64-1_83.lib)
 target_link_libraries(unit3 ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/lib/boost/libboost_container-vc143-mt-gd-x64-1_83.lib)
 	
+# Link the GameEngine source files
+target_link_libraries(unit3 gameengine)

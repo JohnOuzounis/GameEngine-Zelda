@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "action-tilemap.tmj",
     "expandedProjectPaths": [
         "."
     ],
@@ -13,19 +13,19 @@
             "scaleInEditor": 1
         },
         "action-tilemap.tmj": {
-            "scale": 0.75,
+            "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 337.3333333333333,
-                "y": 95.33333333333331
+                "x": 438.5,
+                "y": 244.75
             }
         },
         "background-tilemap.tmj": {
             "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 152.66666666666666,
-                "y": 219
+                "x": 151.33333333333331,
+                "y": 218.33333333333334
             }
         }
     },
@@ -36,11 +36,13 @@
     "map.tileWidth": 16,
     "map.width": 10,
     "openFiles": [
+        "background-tilemap.tmj",
+        "action-tilemap.tmj"
     ],
     "project": "unit3.tiled-project",
     "recentFiles": [
-        "action-tilemap.tmj",
         "background-tilemap.tmj",
+        "action-tilemap.tmj",
         "Parapa-Palace.tsj"
     ],
     "tileset.lastUsedFormat": "json",

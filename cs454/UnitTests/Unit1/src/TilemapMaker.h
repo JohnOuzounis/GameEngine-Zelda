@@ -34,7 +34,6 @@ class TilemapMaker : public GameEngine::Json::IConfigurable {
 	}
 	virtual void Configure(
 		const GameEngine::Json::Property& property) override {
-		assert(IsValid(property));
 		using namespace GameEngine::Json;
 
 		AggregateProperty* ag = (AggregateProperty*)(&property);

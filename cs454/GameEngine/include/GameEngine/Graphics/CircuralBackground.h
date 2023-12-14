@@ -26,16 +26,24 @@ class CircularBackground {	// horizontal stripe
 			viewWin.x = viewWin.x - bg->GetWidth();
 	}
 
-	void Display(Image* dest, int x, int y) const {
+	void Display(Image* dest, const Rect& displayArea) const {
+		Image* temp =
+			Image::Create(viewWin.width, viewWin.height, {123, 123, 123, 255});
+		temp->SetColorKey({123, 123, 123}, true);
+
 		auto bg_w = bg->GetWidth();
 		auto w1 = Math::Min(bg_w - viewWin.x, viewWin.width);
-		bg->Blit({viewWin.x, viewWin.y, w1, viewWin.height}, *dest,
-				 {x, y, viewWin.width, viewWin.height});
+		bg->BlitScaled({viewWin.x, viewWin.y, w1, viewWin.height}, *temp,
+					   {0, 0, w1, viewWin.height});
 		if (w1 < viewWin.width) {		   // not whole view win fits
 			auto w2 = viewWin.width - w1;  // the remaining part
-			bg->Blit({0, viewWin.y, w2, viewWin.height}, *dest,
-					 {x + w1, y, viewWin.width, viewWin.height});
+			bg->BlitScaled({0, viewWin.y, w2, viewWin.height}, *temp,
+						   {w1, 0, w2, viewWin.height});
 		}
+
+		temp->BlitScaled({0, 0, temp->GetWidth(), temp->GetHeight()}, *dest,
+						 {displayArea.x, displayArea.y, displayArea.width,
+						  displayArea.height});
 	}
 };
 

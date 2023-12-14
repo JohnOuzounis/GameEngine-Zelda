@@ -23,7 +23,8 @@ GameEngine::Graphics::Tilemap::Tilemap(int w,
 	tilesetCols = tileset->GetWidth() / tw;
 	tilesetRows = tileset->GetHeight() / th;
 
-	tilemap = Image::Create(width, height, {0, 0, 0, 255});
+	tilemap = Image::Create(width, height, {123, 123, 123, 255});
+	tilemap->SetColorKey({123, 123, 123}, true);
 	for (int row = 0; row < totalRows; row++) {
 		for (int col = 0; col < totalCols; col++) {
 			PutTile(row, col, GetTile(row, col));

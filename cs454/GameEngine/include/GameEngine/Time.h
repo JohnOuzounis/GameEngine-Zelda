@@ -22,10 +22,11 @@ class Time final {
 	/// </summary>
 	static void Update() {
 		long long currentTime = std::chrono::high_resolution_clock::now()
-						 .time_since_epoch()
-						 .count();
+									.time_since_epoch()
+									.count();
 
-		double current = static_cast<double>(currentTime - startTime) / 1000000000;
+		double current =
+			static_cast<double>(currentTime - startTime) / 1000000000;
 		Time::deltaTime = current - lastTime;
 		Time::time += Time::deltaTime * Time::timeScale;
 		lastTime = current;
@@ -37,7 +38,7 @@ class Time final {
 	/// <returns></returns>
 	static double getTime() { return Time::time; }
 
-	static double getDeltaTime() { return Time::deltaTime*Time::timeScale; }
+	static double getDeltaTime() { return Time::deltaTime * Time::timeScale; }
 
 	static float getTimeScale() { return Time::timeScale; }
 	static void setTimeScale(float timeScale) { Time::timeScale = timeScale; }

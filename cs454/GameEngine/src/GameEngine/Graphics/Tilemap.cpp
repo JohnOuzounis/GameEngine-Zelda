@@ -49,17 +49,17 @@ void GameEngine::Graphics::Tilemap::PutTile(int row, int col, int index) {
 				  {xx, yy, tileWidth, tileHeight});
 }
 
-bool GameEngine::Graphics::Tilemap::CanScrollHorizontal(float dx) const {
+bool GameEngine::Graphics::Tilemap::CanScrollHorizontal(int dx) const {
 	return view.x >= -dx && (view.x + view.width + dx) <= tilemap->GetWidth();
 }
 
-bool GameEngine::Graphics::Tilemap::CanScrollVertical(float dy) const {
+bool GameEngine::Graphics::Tilemap::CanScrollVertical(int dy) const {
 	return view.y >= -dy && (view.y + view.height + dy) <= tilemap->GetHeight();
 }
 
 void GameEngine::Graphics::Tilemap::Display(Image& dest,
 											const Rect& displayArea) {
-	tilemap->BlitScaled(view, dest, displayArea);
+	tilemap->Blit(view, dest, displayArea);
 }
 
 void GameEngine::Graphics::Tilemap::Scroll(int dx, int dy) {

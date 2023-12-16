@@ -59,8 +59,8 @@ class Tilemap {
 	void SetGridmap(int gridTileWidth, int gridTileHeight);
 	Gridmap* GetGridmap() const { return gridmap; }
 
-	bool CanScrollHorizontal(float dx) const;
-	bool CanScrollVertical(float dy) const;
+	bool CanScrollHorizontal(int dx) const;
+	bool CanScrollVertical(int dy) const;
 
 	void Display(Image& dest, const Rect& displayArea);
 	void Scroll(int dx, int dy);

@@ -33,15 +33,15 @@ class CircularBackground {	// horizontal stripe
 
 		auto bg_w = bg->GetWidth();
 		auto w1 = Math::Min(bg_w - viewWin.x, viewWin.width);
-		bg->BlitScaled({viewWin.x, viewWin.y, w1, viewWin.height}, *temp,
+		bg->Blit({viewWin.x, viewWin.y, w1, viewWin.height}, *temp,
 					   {0, 0, w1, viewWin.height});
 		if (w1 < viewWin.width) {		   // not whole view win fits
 			auto w2 = viewWin.width - w1;  // the remaining part
-			bg->BlitScaled({0, viewWin.y, w2, viewWin.height}, *temp,
+			bg->Blit({0, viewWin.y, w2, viewWin.height}, *temp,
 						   {w1, 0, w2, viewWin.height});
 		}
 
-		temp->BlitScaled({0, 0, temp->GetWidth(), temp->GetHeight()}, *dest,
+		temp->Blit({0, 0, temp->GetWidth(), temp->GetHeight()}, *dest,
 						 {displayArea.x, displayArea.y, displayArea.width,
 						  displayArea.height});
 	}

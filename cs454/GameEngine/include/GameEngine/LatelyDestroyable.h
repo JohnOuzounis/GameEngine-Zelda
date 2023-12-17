@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include <cassert>
+#include <functional>
 
 namespace GameEngine {
 
@@ -16,14 +17,19 @@ class DestructionManager {
 };
 
 class LatelyDestroyable {
+   public:
+	   using OnDestroy = std::function<void()>;
    protected:
 	friend class DestructionManager;
 	bool alive = true;
 	bool dying = false;
+	OnDestroy onDestroy;
+
 	virtual ~LatelyDestroyable() { assert(dying); }
 	void Delete(void);
 
    public:
+	void SetOnDestroy(OnDestroy onDestroy) { this->onDestroy = onDestroy; }
 	bool IsAlive(void) const { return alive; }
 	void Destroy(void) {
 		if (alive) {

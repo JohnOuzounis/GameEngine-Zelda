@@ -1,21 +1,18 @@
 #include <GameEngine/Game.h>
-#include <GameEngine/Time.h>
-#include <GameEngine/Input.h>
 #include <GameEngine/Graphics/Event.h>
+#include <GameEngine/Input.h>
+#include <GameEngine/Time.h>
 
 using namespace GameEngine::app;
 using namespace GameEngine::Graphics;
 
-void GameEngine::app::Game::MainLoop()
-{
-	while (!IsFinished())
-	{
+void GameEngine::app::Game::MainLoop() {
+	while (!IsFinished()) {
 		MainLoopIteration();
 	}
 }
 
-void GameEngine::app::Game::MainLoopIteration()
-{
+void GameEngine::app::Game::MainLoopIteration() {
 	Time::Update();
 	Render();
 
@@ -28,10 +25,12 @@ void GameEngine::app::Game::MainLoopIteration()
 	}
 	Input();
 
-	ProgressAnimations();
-	AI();
-	Physics();
-	CollisionChecking();
-	UserCode();
-	CommitDestructions();
+	if (!IsPaused()) {
+		ProgressAnimations();
+		AI();
+		Physics();
+		CollisionChecking();
+		UserCode();
+		CommitDestructions();
+	}
 }

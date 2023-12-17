@@ -48,7 +48,33 @@ set(ENGINE_SOURCES
   src/GameEngine/Time.cpp
   include/GameEngine/JSON/ArrayProperty.h
   src/GameEngine/JSON/ArrayProperty.cpp
- include/GameEngine/App.h "include/GameEngine/Game.h" "src/GameEngine/Game.cpp" "include/GameEngine/Resources.h" "include/GameEngine/Graphics/Tilemap.h" "src/GameEngine/Graphics/Tilemap.cpp" "include/GameEngine/Scene.h" "include/GameEngine/SceneManager.h" "include/GameEngine/Graphics/Gridmap.h" "src/GameEngine/Graphics/Gridmap.cpp" "include/GameEngine/CharacterController.h" "src/GameEngine/CharacterController.cpp" "include/GameEngine/Graphics/CircuralBackground.h")
+ include/GameEngine/App.h "include/GameEngine/Game.h"
+ "src/GameEngine/Game.cpp" "include/GameEngine/Resources.h" 
+ "include/GameEngine/Graphics/Tilemap.h" "src/GameEngine/Graphics/Tilemap.cpp" 
+ "include/GameEngine/Scene.h" "include/GameEngine/SceneManager.h" 
+ "include/GameEngine/Graphics/Gridmap.h" "src/GameEngine/Graphics/Gridmap.cpp" 
+ "include/GameEngine/CharacterController.h" "src/GameEngine/CharacterController.cpp" 
+ "include/GameEngine/Graphics/CircuralBackground.h" "include/GameEngine/Animation/AnimationFilm.h" 
+ "src/GameEngine/Animation/AnimationFilm.cpp" "include/GameEngine/Animation/AnimationFilmHolder.h" 
+ "src/GameEngine/Animation/AnimationFilmHolder.cpp" "include/GameEngine/Animation/Animation.h" 
+ "include/GameEngine/Animation/MovingAnimation.h" "include/GameEngine/Animation/FrameRangeAnimation.h" 
+ "include/GameEngine/Animation/FrameListAnimation.h" 
+ "include/GameEngine/Animation/MovingPathAnimation.h" "include/GameEngine/Animation/FlashAnimation.h" 
+ "include/GameEngine/Animation/ScrollAnimation.h" "include/GameEngine/Animation/Animator.h" 
+ "src/GameEngine/Animation/Animator.cpp" "include/GameEngine/Animation/MovingAnimator.h" 
+ "src/GameEngine/Animation/MovingAnimator.cpp" "include/GameEngine/Animation/FrameRangeAnimator.h" 
+ "src/GameEngine/Animation/FrameRangeAnimator.cpp" "include/GameEngine/Animation/AnimatorManager.h" 
+ "include/GameEngine/LatelyDestroyable.h" "src/GameEngine/LatelyDestroyable.cpp" 
+ "include/GameEngine/Animation/TickAnimation.h" "include/GameEngine/Animation/TickAnimator.h" 
+ "src/GameEngine/Animation/TickAnimator.cpp" "include/GameEngine/MotionQuantizer.h" 
+ "src/GameEngine/MotionQuantizer.cpp" "include/GameEngine/Graphics/Sprite.h" 
+ "include/GameEngine/Clipper.h" "src/GameEngine/Clipper.cpp" "src/GameEngine/Graphics/Sprite.cpp" 
+ "include/GameEngine/GravityHandler.h" "src/GameEngine/GravityHandler.cpp" 
+ "include/GameEngine/CollisionChecker.h" "src/GameEngine/CollisionChecker.cpp" 
+ "include/GameEngine/SpriteManager.h" "src/GameEngine/SpriteManager.cpp" 
+ "src/GameEngine/Animation/AnimatorManager.cpp" "include/GameEngine/Animation/FrameListAnimator.h" 
+ "src/GameEngine/Animation/FrameListAnimator.cpp" "include/GameEngine/Animation/FlashAnimator.h"
+ "src/GameEngine/Animation/FlashAnimator.cpp" "include/GameEngine/Animation/ScrollAnimator.h" "src/GameEngine/Animation/ScrollAnimator.cpp" "include/GameEngine/Animation/MovingPathAnimator.h" "src/GameEngine/Animation/MovingPathAnimator.cpp")
 
 
 # Create a library for the GameEngine

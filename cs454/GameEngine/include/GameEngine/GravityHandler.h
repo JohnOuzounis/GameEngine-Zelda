@@ -33,6 +33,6 @@ class GravityHandler {
 	void Check(const Graphics::Rect& r);
 
 	void SetGravity(bool enable) { gravityAddicted = enable; }
-	bool GetGravity() { return gravityAddicted; }
+	bool GetGravity() const { return gravityAddicted; }
 };
 }  // namespace GameEngine

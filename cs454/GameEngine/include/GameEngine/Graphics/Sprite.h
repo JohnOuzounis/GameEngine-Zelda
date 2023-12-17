@@ -6,11 +6,12 @@
 #include <GameEngine/GravityHandler.h>
 #include <GameEngine/MotionQuantizer.h>
 #include <functional>
+#include <GameEngine/LatelyDestroyable.h>
 
 namespace GameEngine {
 namespace Graphics {
 
-class Sprite {
+class Sprite : public LatelyDestroyable {
    public:
 	using Mover = std::function<void(const Graphics::Rect&, int* dx, int* dy)>;
 
@@ -38,8 +39,7 @@ class Sprite {
 	}
 	bool GetHasDirectMotion(void) const { return directMotion; }
 
-	template <typename Tfunc>
-	void SetMover(const Tfunc& f) {
+	void SetMover(const Mover& f) {
 		quantizer.SetMover(mover = f);
 	}
 	const Graphics::Rect GetBox(void) const {
@@ -94,11 +94,11 @@ class Sprite {
 				 const Graphics::Rect& dpyArea,
 				 const Clipper& clipper) const;
 
-	Sprite(int _x, int _y, AnimationFilm* film, const std::string& _typeId = "")
-		: x(_x), y(_y), currFilm(film), typeId(_typeId) {
-		frameNo = currFilm->GetTotalFrames();
-		SetFrame(0);
-	}
+	Sprite(int _x,
+		   int _y,
+		   AnimationFilm* film,
+		   const std::string& _typeId = "");
+	virtual ~Sprite();
 };
 }  // namespace Graphics
 }  // namespace GameEngine

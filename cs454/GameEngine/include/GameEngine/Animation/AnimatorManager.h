@@ -41,6 +41,11 @@ class AnimatorManager {
 			a->Progress(currTime);
 	}
 
+	void TimeShift(double dt) {
+		for (auto* a : running)
+			a->TimeShift(dt);
+	}
+
 	static auto GetSingleton(void) -> AnimatorManager& { return singleton; }
 	static auto GetSingletonConst(void) -> const AnimatorManager& {
 		return singleton;

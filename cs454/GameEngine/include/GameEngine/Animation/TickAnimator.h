@@ -18,8 +18,8 @@ class TickAnimator : public Animator {
 		return float(elapsedTime) / float(anim->GetDelay());
 	}
 
-	void Start(const TickAnimation& a, double t) {
-		anim = (TickAnimation*)a.Clone();
+	void Start(TickAnimation* a, double t) {
+		anim = a;
 		lastTime = t;
 		state = RUNNING;
 		currRep = 0;

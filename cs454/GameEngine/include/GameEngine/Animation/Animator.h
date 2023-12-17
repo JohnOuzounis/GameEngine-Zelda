@@ -38,18 +38,15 @@ class Animator : public LatelyDestroyable{
 	virtual void TimeShift(double offset);
 	virtual void Progress(double currTime) = 0;
 
-	template <typename Tfunc>
-	void SetOnFinish(const Tfunc& f) {
+	void SetOnFinish(const OnFinish& f) {
 		onFinish = f;
 	}
 
-	template <typename Tfunc>
-	void SetOnStart(const Tfunc& f) {
+	void SetOnStart(const OnStart& f) {
 		onStart = f;
 	}
 
-	template <typename Tfunc>
-	void SetOnAction(const Tfunc& f) {
+	void SetOnAction(const OnAction& f) {
 		onAction = f;
 	}
 };

@@ -6,7 +6,7 @@ class MovingAnimation : public Animation {
    protected:
 	unsigned reps = 1;	// 0=forever
 	int dx = 0, dy = 0;
-	unsigned delay = 0;
+	double delay = 0;
 
    public:
 	int GetDx(void) const { return dx; }
@@ -21,8 +21,8 @@ class MovingAnimation : public Animation {
 		return *this;
 	}
 
-	unsigned GetDelay(void) const { return delay; }
-	MovingAnimation& SetDelay(unsigned v) {
+	double GetDelay(void) const { return delay; }
+	MovingAnimation& SetDelay(double v) {
 		delay = v;
 		return *this;
 	}
@@ -47,7 +47,7 @@ class MovingAnimation : public Animation {
 					unsigned _reps,
 					int _dx,
 					int _dy,
-					unsigned _delay)
+					double _delay)
 		: Animation(_id), reps(_reps), dx(_dx), dy(_dy), delay(_delay) {}
 };
 }

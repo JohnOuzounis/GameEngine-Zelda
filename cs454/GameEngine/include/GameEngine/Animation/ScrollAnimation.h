@@ -6,7 +6,7 @@ namespace GameEngine {
 struct ScrollEntry {
 	int dx = 0;
 	int dy = 0;
-	unsigned delay = 0;
+	double delay = 0;
 };
 class ScrollAnimation : public Animation {
    public:

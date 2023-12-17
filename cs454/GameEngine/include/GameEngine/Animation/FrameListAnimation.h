@@ -24,7 +24,7 @@ class FrameListAnimation : public MovingAnimation {
 					   unsigned r,
 					   int dx,
 					   int dy,
-					   unsigned d)
-		: frames(_frames), MovingAnimation(id, r, dx, dy, d) {}
+					   double d)
+		: frames(_frames), MovingAnimation(_id, r, dx, dy, d) {}
 };
 }

@@ -6,7 +6,7 @@ namespace GameEngine {
 struct PathEntry {
 	int dx = 0, dy = 0;
 	unsigned frame = 0;
-	unsigned delay = 0;
+	double delay = 0;
 	PathEntry(void) = default;
 	PathEntry(const PathEntry&) = default;
 };
@@ -27,7 +27,7 @@ class MovingPathAnimation : public Animation {
 	}
 
 	MovingPathAnimation(const std::string& _id, const Path& _path)
-		: path(_path), Animation(id) {}
+		: path(_path), Animation(_id) {}
 };
 
 }  // namespace GameEngine

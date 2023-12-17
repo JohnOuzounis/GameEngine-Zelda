@@ -31,8 +31,8 @@ class FrameRangeAnimation : public MovingAnimation {
 						unsigned r,
 						int dx,
 						int dy,
-						int d)
-		: start(s), end(e), MovingAnimation(id, r, dx, dy, d) {}
+						double d)
+		: start(s), end(e), MovingAnimation(_id, r, dx, dy, d) {}
 };
 
 }

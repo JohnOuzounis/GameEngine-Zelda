@@ -5,8 +5,8 @@ namespace GameEngine {
 class FlashAnimation : public Animation {
    private:
 	unsigned repetitions = 0;
-	unsigned hideDelay = 0;
-	unsigned showDelay = 0;
+	double hideDelay = 0;
+	double showDelay = 0;
 
    public:
 	unsigned GetRepetitions(void) const { return repetitions; }
@@ -15,14 +15,14 @@ class FlashAnimation : public Animation {
 		return *this;
 	}
 
-	unsigned GetHideDelay(void) const { return hideDelay; }
-	FlashAnimation& SetHideDelay(unsigned d) {
+	double GetHideDelay(void) const { return hideDelay; }
+	FlashAnimation& SetHideDelay(double d) {
 		hideDelay = d;
 		return *this;
 	}
 
-	unsigned GetShowDelay(void) const { return showDelay; }
-	FlashAnimation& SetShowDelay(unsigned d) {
+	double GetShowDelay(void) const { return showDelay; }
+	FlashAnimation& SetShowDelay(double d) {
 		showDelay = d;
 		return *this;
 	}
@@ -33,8 +33,8 @@ class FlashAnimation : public Animation {
 
 	FlashAnimation(const std::string& _id,
 				   unsigned n,
-				   unsigned show,
-				   unsigned hide)
-		: Animation(id), repetitions(n), hideDelay(hide), showDelay(show) {}
+				   double show,
+				   double hide)
+		: Animation(_id), repetitions(n), hideDelay(hide), showDelay(show) {}
 };
 }

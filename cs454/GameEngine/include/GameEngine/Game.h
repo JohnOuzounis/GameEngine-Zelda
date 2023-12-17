@@ -11,8 +11,10 @@ class Game {
 
    private:
 	std::vector<Action> render, anim, input, ai, physics, destruct, collisions,
-		user, quit;
+		user, quit, pauseResume;
 	Predicate done;
+	bool isPaused = false;
+	double pauseTime = 0;
 
 	void InvokeAll(const std::vector<Action>& actions) {
 		for (const auto& action : actions) {
@@ -71,7 +73,25 @@ class Game {
 		AddAction(quit, action, first);
 	}
 
+	void AddPauseResume(const Action& action, bool first) {
+		AddAction(pauseResume, action, first);
+	}
+
 	void SetFinished(const Predicate& finished) { done = finished; }
+	bool IsPaused(void) const { return isPaused; }
+	double GetPauseTime(void) const { return pauseTime; }
+
+	void Pause(double t) {
+		isPaused = true;
+		pauseTime = t;
+		InvokeAll(pauseResume);
+	}
+
+	void Resume(void) {
+		isPaused = false;
+		InvokeAll(pauseResume);
+		pauseTime = 0;
+	}
 
 	void Render() { InvokeAll(render); }
 	void ProgressAnimations() { InvokeAll(anim); }

@@ -18,7 +18,8 @@ void DestructionManager::Commit(void) {
 	for (auto* d : dead) {
 		auto callback = d->onDestroy;
 		d->Delete();
-		callback();
+		if (callback)
+			(callback)();
 	}
 	dead.clear();
 }

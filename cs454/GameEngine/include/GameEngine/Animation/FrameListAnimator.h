@@ -15,6 +15,7 @@ class FrameListAnimator : public Animator {
 	unsigned GetCurrFrame(void) const { return currFrame; }
 	unsigned GetCurrIndex(void) const { return currIndex; }
 	unsigned GetCurrRep(void) const { return currRep; }
+	const FrameListAnimation* GetAnimation() const { return anim; }
 
 	void Start(FrameListAnimation* a, double t) {
 		anim = a;

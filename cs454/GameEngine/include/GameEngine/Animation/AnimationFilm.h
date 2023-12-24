@@ -9,6 +9,7 @@ namespace GameEngine {
 class AnimationFilm {
 	std::vector<Graphics::Rect> boxes;
 	std::vector<Graphics::Point> offsets;
+	std::vector<Graphics::Rect> colliders;
 	Graphics::Image* bitmap = nullptr;
 	std::string id;
 
@@ -24,6 +25,10 @@ class AnimationFilm {
 	const Graphics::Point& GetFrameOffset(int frameNo) const {
 		assert(offsets.size() > frameNo);
 		return offsets[frameNo];
+	}
+	const Graphics::Rect& GetCollider(int frameNo) const {
+		assert(colliders.size() > frameNo);
+		return colliders[frameNo];
 	}
 
 	void DisplayFrame(Graphics::Image* dest, const Graphics::Rect& displayArea, int frameNo) const {
@@ -41,9 +46,10 @@ class AnimationFilm {
 	void SetMask(const Graphics::Color& mask) {
 		bitmap->SetColorKey(mask, true);
 	}
-	void Append(const Graphics::Rect& r, const Graphics::Point& offset) {
+	void Append(const Graphics::Rect& r, const Graphics::Point& offset, const Graphics::Rect& c) {
 		boxes.push_back(r);
 		offsets.push_back(offset);
+		colliders.push_back(c);
 	}
 
 	AnimationFilm(const std::string& _id) : id(_id) {}

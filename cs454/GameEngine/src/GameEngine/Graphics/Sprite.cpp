@@ -9,7 +9,6 @@ Sprite::Sprite(int _x,
 			   AnimationFilm* film,
 			   const std::string& _typeId)
 	: x(_x), y(_y), currFilm(film), typeId(_typeId) {
-	frameNo = currFilm->GetTotalFrames();
 	SetFrame(0);
 	SpriteManager::GetSingleton().Add(this);
 }

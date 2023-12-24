@@ -21,7 +21,10 @@ class MotionQuantizer {
 	bool used = false;
 
    public:
-	MotionQuantizer& SetUsed(bool val) { used = val; }
+	MotionQuantizer& SetUsed(bool val) {
+		used = val;
+		return *this;
+	}
 
 	MotionQuantizer& SetRange(int h, int v) {
 		horizMax = h, vertMax = v;

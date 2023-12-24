@@ -17,16 +17,16 @@ class GravityHandler {
 	OnStopFalling onStopFalling;
 
    public:
-	template <typename T>
-	void SetOnStartFalling(const OnSolidGroundPred& f) {
+	
+	void SetOnStartFalling(const OnStartFalling& f) {
 		onStartFalling = f;
 	}
-	template <typename T>
-	void SetOnStopFalling(const T& f) {
+	
+	void SetOnStopFalling(const OnStopFalling& f) {
 		onStopFalling = f;
 	}
-	template <typename T>
-	void SetOnSolidGround(const T& f) {
+	
+	void SetOnSolidGround(const OnSolidGroundPred& f) {
 		onSolidGround = f;
 	}
 	void Reset(void) { isFalling = false; }

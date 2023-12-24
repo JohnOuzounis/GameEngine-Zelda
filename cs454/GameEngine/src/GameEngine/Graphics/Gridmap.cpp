@@ -3,7 +3,7 @@
 #include <cassert>
 #include <string>
 
-void GameEngine::Graphics::Gridmap::SetSolidGridTile(int col, int row) {
+void GameEngine::Graphics::Gridmap::SetSolidGridTile(int row, int col) {
 	SetGridTile(row, col, GRID_SOLID_TILE);
 }
 
@@ -19,6 +19,28 @@ void GameEngine::Graphics::Gridmap::SetGridTileFlags(int row,
 
 void GameEngine::Graphics::Gridmap::SetGridTileTopSolidOnly(int row, int col) {
 	SetGridTile(row, col, GRID_TOP_SOLID_MASK);
+}
+
+void GameEngine::Graphics::Gridmap::SetGridTileBlock(int row,
+													 int col,
+													 GridIndex flags) {
+	for (int i = 0; i < gridBlockRows; ++i) {
+		for (int j = 0; j < gridBlockColumns; ++j) {
+			SetGridTile(row + i, col + j, flags);
+		}
+	}
+}
+
+void GameEngine::Graphics::Gridmap::SetGridTileBlock(int startRow,
+													 int endRow,
+													 int startCol,
+													 int endCol,
+													 GridIndex flags) {
+	for (int i = startRow; i <= endRow; ++i) {
+		for (int j = startCol; j <= endCol; ++j) {
+			SetGridTile(i, j, flags);
+		}
+	}
 }
 
 bool GameEngine::Graphics::Gridmap::CanPassGridTile(int row,
@@ -168,4 +190,9 @@ void GameEngine::Graphics::Gridmap::SetGridTile(int row,
 GameEngine::Graphics::Gridmap::GridIndex
 GameEngine::Graphics::Gridmap::GetGridTile(int row, int col) const {
 	return grid[row * totalColumns + col];
+}
+
+GameEngine::Graphics::Gridmap::GridIndex*
+GameEngine::Graphics::Gridmap::GetGridTileBlock(int row, int col) const {
+	return grid + (row * totalColumns + col) * gridTilesPerTile;
 }

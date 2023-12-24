@@ -59,6 +59,10 @@ class Rect {
 		this->x = x;
 		this->y = y;
 	}
+
+	bool Equals(const Rect& b) const {
+		return x == b.x && y == b.y && width == b.width && height == b.height;
+	}
 };
 
 }  // namespace Graphics

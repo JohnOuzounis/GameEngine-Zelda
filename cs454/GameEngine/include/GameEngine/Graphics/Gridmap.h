@@ -41,6 +41,7 @@ class Gridmap {
 
 	void SetGridTile(int row, int col, GridIndex index);
 	GridIndex GetGridTile(int row, int col) const;
+	GridIndex* GetGridTileBlock(int row, int col) const;
 
 	GridIndex* GetGrid() const { return grid; }
 	int GetTotal() const { return total; }
@@ -52,10 +53,12 @@ class Gridmap {
 	int GetGridRows() const { return totalRows; }
 	int GetGridColumns() const { return totalColumns; }
 
-	void SetSolidGridTile(int col, int row);
+	void SetSolidGridTile(int row, int col);
 	void SetEmptyGridTile(int row, int col);
 	void SetGridTileFlags(int row, int col, GridIndex flags);
 	void SetGridTileTopSolidOnly(int row, int col);
+	void SetGridTileBlock(int row, int col, GridIndex flags);
+	void SetGridTileBlock(int startRow, int endRow, int startCol, int endCol, GridIndex flags);
 
 	bool CanPassGridTile(int row, int col, GridIndex flags) const;
 

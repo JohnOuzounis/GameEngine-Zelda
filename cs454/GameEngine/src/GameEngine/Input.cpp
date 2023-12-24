@@ -157,21 +157,26 @@ void GameEngine::Input::HandleEvent() {
 		if (Event::GetEvent().GetButton().button <= 3) {
 			event.type = Event::MouseButtonDown;
 			event.mouse = (MouseButton)Event::GetEvent().GetButton().button;
-			mouseStates[(MouseButton)Event::GetEvent().GetButton().button] = true;
+			events.push_back(event);
+
+			mouseStates[(MouseButton)Event::GetEvent().GetButton().button] =
+				true;
 		}
 
 	if (Event::GetEvent().GetType() == Event::MouseButtonUp)
-		if (Event::GetEvent().GetButton().button <= 3)
-		{
+		if (Event::GetEvent().GetButton().button <= 3) {
 			event.type = Event::MouseButtonUp;
 			event.mouse = (MouseButton)Event::GetEvent().GetButton().button;
-			mouseStates[(MouseButton)Event::GetEvent().GetButton().button] = false;
+			events.push_back(event);
+
+			mouseStates[(MouseButton)Event::GetEvent().GetButton().button] =
+				false;
 		}
 }
 
 bool GameEngine::Input::GetKeyDown(Graphics::Event::Keycode key) {
 	for (auto& event : events) {
-		if (event.type == Event::KeyDown && keyStates[key])
+		if (event.type == Event::KeyDown && keyStates[key] && event.key == key)
 			return true;
 	}
 	return false;
@@ -179,7 +184,7 @@ bool GameEngine::Input::GetKeyDown(Graphics::Event::Keycode key) {
 
 bool GameEngine::Input::GetKeyUp(Graphics::Event::Keycode key) {
 	for (auto& event : events) {
-		if (event.type == Event::KeyUp && !keyStates[key])
+		if (event.type == Event::KeyUp && !keyStates[key] && event.key == key)
 			return true;
 	}
 	return false;
@@ -191,7 +196,8 @@ bool GameEngine::Input::GetKey(Graphics::Event::Keycode key) {
 
 bool GameEngine::Input::GetMouseButtonDown(MouseButton key) {
 	for (auto& event : events) {
-		if (event.type == Event::MouseButtonDown && mouseStates[key])
+		if (event.type == Event::MouseButtonDown && mouseStates[key] &&
+			event.mouse == key)
 			return true;
 	}
 	return false;
@@ -199,7 +205,8 @@ bool GameEngine::Input::GetMouseButtonDown(MouseButton key) {
 
 bool GameEngine::Input::GetMouseButtonUp(MouseButton key) {
 	for (auto& event : events) {
-		if (event.type == Event::MouseButtonUp && !mouseStates[key])
+		if (event.type == Event::MouseButtonUp && !mouseStates[key] &&
+			event.mouse == key)
 			return true;
 	}
 	return false;

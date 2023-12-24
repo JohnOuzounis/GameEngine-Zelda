@@ -33,8 +33,10 @@ class Sprite : public LatelyDestroyable {
 
    public:
 	GravityHandler& GetGravityHandler(void) { return gravity; }
+	MotionQuantizer& GetMotionQuantizer() { return quantizer; }
+
 	Sprite& SetHasDirectMotion(bool v) {
-		directMotion = true;
+		directMotion = v;
 		return *this;
 	}
 	bool GetHasDirectMotion(void) const { return directMotion; }
@@ -50,11 +52,15 @@ class Sprite : public LatelyDestroyable {
 
 	Sprite& Move(int dx, int dy) {
 		if (directMotion)  // apply unconditionally offsets!
-			x += dx, y += dy;
+			MoveDirect(dx,dy);
 		else {
 			quantizer.Move(GetBox(), &dx, &dy);
 			gravity.Check(GetBox());
 		}
+		return *this;
+	}
+	Sprite& MoveDirect(int dx, int dy) {
+		x += dx, y += dy;
 		return *this;
 	}
 
@@ -67,10 +73,10 @@ class Sprite : public LatelyDestroyable {
 
 	int GetFrame(void) const { return frameNo; }
 	void SetFrame(int i) {
-		if (i != frameNo) {
+		//if (i != frameNo) {
 			assert(i < currFilm->GetTotalFrames());
 			frameBox = currFilm->GetFrameBox(frameNo = i);
-		}
+		//}
 	}
 	AnimationFilm* GetFilm() const { return currFilm; }
 	void SetFilm(AnimationFilm* film) { currFilm = film; }

@@ -1,6 +1,8 @@
 #pragma once
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
+#include <ctime> 
 
 namespace GameEngine {
 
@@ -19,6 +21,11 @@ class Math final {
 	template <typename T>
 	static T Min(T value1, T value2) {
 		return (value1 < value2) ? value1 : value2;
+	}
+
+	static int Random(int from, int to) {
+		std::srand(static_cast<unsigned int>(std::time(nullptr)));
+		return from + std::rand() % (to - from + 1);
 	}
 };
 }  // namespace GameEngine

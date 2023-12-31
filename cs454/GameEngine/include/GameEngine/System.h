@@ -4,6 +4,8 @@
 #include <GameEngine/Input.h>
 #include <GameEngine/ImageLoader.h>
 #include <GameEngine/SceneManager.h>
+#include <GameEngine/Animation/TickAnimator.h>
+#include <GameEngine/Time.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -13,9 +15,15 @@ namespace GameEngine {
 
 class System final {
    public:
-	static bool WaitForSeconds(unsigned int seconds) {
-		SDL_Delay(seconds * 1000);
-		return true;
+	using TimedEvent = std::function<void(void)>;
+	static void WaitForSeconds(double seconds, TimedEvent event) {
+		TickAnimator* anim = new TickAnimator();
+		anim->SetOnFinish([event, anim](Animator* a) {
+			event();
+			anim->Destroy();
+		});
+		anim->Start(new TickAnimation("timed event", seconds, 1, true),
+					Time::getTime());
 	}
 
 	static bool Init() {

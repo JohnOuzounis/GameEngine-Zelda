@@ -21,7 +21,7 @@ bool GameEngine::CircleCollider2D::Overlap(
 }
 
 bool GameEngine::CircleCollider2D::Overlap(const Collider2D& collider) const {
-	return collider.Overlap(*(Collider2D*)this);
+	return collider.Overlap(*this);
 }
 
 bool GameEngine::CircleCollider2D::OverlapPoint(const int x,

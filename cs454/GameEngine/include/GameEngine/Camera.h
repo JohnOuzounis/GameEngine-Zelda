@@ -20,6 +20,7 @@ class Camera {
 	Graphics::Rect* GetFollow() const { return follow; }
 	void Follow(Graphics::Rect* object) { follow = object; }
 	void SetOffset(int dx, int dy) { offset.x = dx, offset.y = dy; }
+	const Graphics::Point& GetOffset() const { return offset; }
 
 	const Graphics::Rect& GetPositionClamped(const Graphics::Rect& bounds) {
 		if (follow) {

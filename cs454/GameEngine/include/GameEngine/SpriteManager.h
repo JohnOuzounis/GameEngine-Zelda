@@ -21,6 +21,9 @@ class SpriteManager final {
 	auto GetTypeList(const std::string& typeId) -> const SpriteList& {
 		return types[typeId];
 	}
+
+	void CleanUp();
+
 	static auto GetSingleton(void) -> SpriteManager& { return singleton; }
 	static auto GetSingletonConst(void) -> const SpriteManager& {
 		return singleton;

@@ -2,6 +2,8 @@
 using namespace GameEngine;
 using namespace GameEngine::Graphics;
 
+CollisionChecker CollisionChecker::singleton;
+
 auto CollisionChecker::Find(Sprite* s1, Sprite* s2)
 	-> std::list<Entry>::iterator {
 	return std::find_if(
@@ -16,8 +18,24 @@ void CollisionChecker::Cancel(Sprite* s1, Sprite* s2) {
 }
 
 void CollisionChecker::Check(void) const {
+	GameEngine::CollisionChecker::GetSingleton().RemoveDead();
+
 	auto copied(entries);
-	for (auto& e : copied)
+	for (auto& e : copied) {
+	
+		if (!std::get<0>(e)->IsAlive() || !std::get<1>(e)->IsAlive())
+		{
+			CollisionChecker::GetSingleton().Cancel(std::get<0>(e),
+													std::get<1>(e));
+			continue;
+		}
 		if (std::get<0>(e)->CollisionCheck(std::get<1>(e)))
 			std::get<2>(e)(std::get<0>(e), std::get<1>(e));
+	}
+}
+
+void CollisionChecker::RemoveDead() {
+	entries.remove_if([this](const Entry& e) {
+		return !std::get<0>(e)->IsAlive() || !std::get<1>(e)->IsAlive();
+	});
 }

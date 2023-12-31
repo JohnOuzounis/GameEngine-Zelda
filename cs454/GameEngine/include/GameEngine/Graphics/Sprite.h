@@ -45,9 +45,9 @@ class Sprite : public LatelyDestroyable {
 		quantizer.SetMover(mover = f);
 	}
 	const Graphics::Rect GetBox(void) const {
-		return {x + currFilm->GetFrameOffset(frameNo).x,
-				y + currFilm->GetFrameOffset(frameNo).y, frameBox.width,
-				frameBox.height};
+		int fx = (currFilm) ? x + currFilm->GetFrameOffset(frameNo).x : x;
+		int fy = (currFilm) ? y + currFilm->GetFrameOffset(frameNo).y : y;
+		return {fx, fy, frameBox.width, frameBox.height};
 	}
 
 	Sprite& Move(int dx, int dy) {
@@ -73,10 +73,10 @@ class Sprite : public LatelyDestroyable {
 
 	int GetFrame(void) const { return frameNo; }
 	void SetFrame(int i) {
-		//if (i != frameNo) {
+		if (currFilm) {
 			assert(i < currFilm->GetTotalFrames());
 			frameBox = currFilm->GetFrameBox(frameNo = i);
-		//}
+		}
 	}
 	AnimationFilm* GetFilm() const { return currFilm; }
 	void SetFilm(AnimationFilm* film) { currFilm = film; }
@@ -90,8 +90,8 @@ class Sprite : public LatelyDestroyable {
 		boundingArea = area;
 	}
 
-	auto GetCollider(void) const -> const Collider2D* { return boundingArea; }
-	auto GetTypeId(void) -> const std::string& { return typeId; }
+	auto GetCollider(void) const -> Collider2D* { return boundingArea; }
+	auto GetTypeId(void) const -> const std::string& { return typeId; }
 	void SetVisibility(bool v) { isVisible = v; }
 	bool IsVisible(void) const { return isVisible; }
 

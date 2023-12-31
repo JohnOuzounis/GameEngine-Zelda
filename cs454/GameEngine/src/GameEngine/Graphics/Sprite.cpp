@@ -9,6 +9,7 @@ Sprite::Sprite(int _x,
 			   AnimationFilm* film,
 			   const std::string& _typeId)
 	: x(_x), y(_y), currFilm(film), typeId(_typeId) {
+	frameBox = {x, y, 0, 0};
 	SetFrame(0);
 	SpriteManager::GetSingleton().Add(this);
 }
@@ -18,6 +19,8 @@ Sprite::~Sprite() {
 }
 
 bool GameEngine::Graphics::Sprite::CollisionCheck(const Sprite* s) const {
+	if (!boundingArea || !s->GetCollider())
+		return false;
 	return this->boundingArea->Overlap(*s->GetCollider());
 }
 

@@ -60,6 +60,11 @@ class Rect {
 		this->y = y;
 	}
 
+	bool In(int x, int y) const {
+		return this->x <= x && x <= this->x+this->width && this->y <= y &&
+			   y <= this->y+this->height;
+	}
+
 	bool Equals(const Rect& b) const {
 		return x == b.x && y == b.y && width == b.width && height == b.height;
 	}

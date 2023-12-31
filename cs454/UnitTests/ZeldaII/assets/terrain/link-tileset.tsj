@@ -1,0 +1,14 @@
+{ "columns":9,
+ "image":"..\/bitmaps\/link-sprites.png",
+ "imageheight":420,
+ "imagewidth":312,
+ "margin":0,
+ "name":"link-tileset",
+ "spacing":0,
+ "tilecount":117,
+ "tiledversion":"1.10.2",
+ "tileheight":32,
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.10"
+}

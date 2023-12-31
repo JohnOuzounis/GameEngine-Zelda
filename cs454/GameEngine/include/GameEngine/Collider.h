@@ -10,6 +10,9 @@ class CircleCollider2D;
 
 class Collider2D {
    protected:
+	friend class BoxCollider2D;
+	friend class CircleCollider2D; 
+
 	std::string tag;
 	bool isTrigger = false;
 

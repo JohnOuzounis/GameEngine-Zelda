@@ -1,0 +1,14 @@
+{ "columns":21,
+ "image":"..\/bitmaps\/items-objects-sprites.png",
+ "imageheight":144,
+ "imagewidth":336,
+ "margin":0,
+ "name":"item-tileset",
+ "spacing":0,
+ "tilecount":189,
+ "tiledversion":"1.10.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}

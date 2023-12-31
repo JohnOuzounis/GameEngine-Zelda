@@ -1,0 +1,14 @@
+{ "columns":21,
+ "image":"..\/bitmaps\/basic-enemies-sprites.png",
+ "imageheight":571,
+ "imagewidth":687,
+ "margin":0,
+ "name":"enemies-ts",
+ "spacing":0,
+ "tilecount":357,
+ "tiledversion":"1.10.2",
+ "tileheight":32,
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.10"
+}

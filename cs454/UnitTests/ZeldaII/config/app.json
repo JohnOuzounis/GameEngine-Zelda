@@ -1,0 +1,1018 @@
+{
+  "map": "config/map.json",
+  "gamescene": {
+    "elevator": {
+      "animations": {
+        "elevator.idle": [
+          {
+            "x": 32,
+            "y": 16,
+            "width": 32,
+            "height": 16,
+            "collider": {
+              "x": 0,
+              "y": 8,
+              "width": 32,
+              "height": 8
+            }
+          }
+        ]
+      }
+    },
+    "door": {
+      "animations": {
+        "door.idle": [
+          {
+            "x": 183,
+            "y": 42,
+            "width": 8,
+            "height": 48,
+            "collider": {
+              "x": 0,
+              "y": 0,
+              "width": 8,
+              "height": 48
+            }
+          }
+        ],
+        "door.open": [
+          {
+            "x": 183,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 192,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 201,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 210,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 219,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 228,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 237,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 246,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 255,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 264,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 273,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 282,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 291,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 300,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 309,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 318,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          },
+          {
+            "x": 327,
+            "y": 42,
+            "width": 8,
+            "height": 48
+          }
+        ]
+      }
+    },
+    "items": {
+      "animations": {
+        "bluepotion.idle": [
+          {
+            "x": 30,
+            "y": 11,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "redpotion.idle": [
+          {
+            "x": 41,
+            "y": 11,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "doll.idle": [
+          {
+            "x": 70,
+            "y": 11,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "pointbag.idle": [
+          {
+            "x": 1,
+            "y": 11,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "key.idle": [
+          {
+            "x": 101,
+            "y": 11,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "masterkey.idle": [
+          {
+            "x": 192,
+            "y": 11,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "candle.idle": [
+          {
+            "x": 129,
+            "y": 11,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "hammer.idle": [
+          {
+            "x": 138,
+            "y": 11,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "gauntlet.idle": [
+          {
+            "x": 147,
+            "y": 11,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "heart.idle": [
+          {
+            "x": 203,
+            "y": 11,
+            "width": 16,
+            "height": 16
+          }
+        ],
+        "healpotion.idle": [
+          {
+            "x": 256,
+            "y": 11,
+            "width": 16,
+            "height": 16
+          }
+        ]
+      }
+    },
+    "enemies": {
+      "animations": {
+        "wosu.left": [
+          {
+            "x": 0,
+            "y": 96,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 32,
+            "y": 96,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          }
+        ],
+        "wosu.right": [
+          {
+            "x": 64,
+            "y": 96,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 96,
+            "y": 96,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          }
+        ],
+        "guma.left": [
+          {
+            "x": 0,
+            "y": 160,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 32,
+            "y": 160,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 64,
+            "y": 160,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 96,
+            "y": 160,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          }
+        ],
+        "guma.right": [
+          {
+            "x": 128,
+            "y": 160,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 160,
+            "y": 160,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 192,
+            "y": 160,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 224,
+            "y": 160,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          }
+        ],
+        "guma.club": [
+          {
+            "x": 256,
+            "y": 160,
+            "width": 8,
+            "height": 16
+          },
+          {
+            "x": 226,
+            "y": 160,
+            "width": 8,
+            "height": 16
+          },
+          {
+            "x": 276,
+            "y": 160,
+            "width": 8,
+            "height": 16
+          }
+        ],
+        "stalfos.left": [
+          {
+            "x": 0,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 32,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 64,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 96,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 128,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "offset": {
+              "x": -8,
+              "y": 0
+            },
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          }
+        ],
+        "stalfos.right": [
+          {
+            "x": 160,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 192,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 224,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 256,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 288,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "offset": {
+              "x": 6,
+              "y": 0
+            },
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          }
+        ],
+        "stalfos.fall": [
+          {
+            "x": 320,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          },
+          {
+            "x": 352,
+            "y": 224,
+            "width": 32,
+            "height": 32,
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "collider": {
+              "x": 7,
+              "y": 0,
+              "width": 16,
+              "height": 32
+            }
+          }
+        ],
+        "bot.idle": [
+          {
+            "x": 0,
+            "y": 288,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 8,
+              "y": 20,
+              "width": 16,
+              "height": 12
+            }
+          },
+          {
+            "x": 32,
+            "y": 288,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 8,
+              "y": 20,
+              "width": 16,
+              "height": 12
+            }
+          },
+          {
+            "x": 64,
+            "y": 288,
+            "width": 32,
+            "height": 32,
+            "collider": {
+              "x": 8,
+              "y": 20,
+              "width": 16,
+              "height": 12
+            }
+          }
+        ]
+      }
+    },
+    "scrollspeed": 5,
+    "lavadamage": 8,
+    "sfxvol": 50,
+    "areas": [
+      {
+        "x": 1280,
+        "y": 0,
+        "width": 640,
+        "height": 256
+      },
+      {
+        "x": 0,
+        "y": 256,
+        "width": 2880,
+        "height": 256
+      },
+      {
+        "x": 704,
+        "y": 512,
+        "width": 2176,
+        "height": 256
+      },
+      {
+        "x": 2880,
+        "y": 656,
+        "width": 384,
+        "height": 368
+      },
+      {
+        "x": 3264,
+        "y": 768,
+        "width": 1216,
+        "height": 256
+      }
+    ]
+  },
+  "link": {
+    "health": {
+      "healthbars": 5,
+      "healthperbar": 16
+    },
+    "damage": 8,
+    "speed": {
+      "xvelocity": 128,
+      "yvelocity": 128,
+      "dx": 8,
+      "dy": 8
+    },
+    "animations": {
+      "link.idle.left": [
+        {
+          "x": 120,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ],
+      "link.idle.right": [
+        {
+          "x": 160,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ],
+      "link.walk.left": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 80,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 120,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ],
+      "link.walk.right": [
+        {
+          "x": 160,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 200,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 240,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 280,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ],
+      "link.crouch.left": [
+        {
+          "x": 40,
+          "y": 37,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ],
+      "link.crouch.attack.left": [
+        {
+          "x": 0,
+          "y": 37,
+          "width": 32,
+          "height": 32,
+          "offset": {
+            "x": -5,
+            "y": 0
+          },
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 40,
+          "y": 37,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ],
+      "link.attack.left": [
+        {
+          "x": 120,
+          "y": 41,
+          "width": 32,
+          "height": 32,
+          "offset": {
+            "x": 4,
+            "y": 0
+          },
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 80,
+          "y": 41,
+          "width": 32,
+          "height": 32,
+          "offset": {
+            "x": -9,
+            "y": 0
+          },
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 120,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ],
+      "link.crouch.right": [
+        {
+          "x": 240,
+          "y": 37,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ],
+      "link.crouch.attack.right": [
+        {
+          "x": 280,
+          "y": 37,
+          "width": 32,
+          "height": 32,
+          "offset": {
+            "x": 5,
+            "y": 0
+          },
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 240,
+          "y": 37,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ],
+      "link.attack.right": [
+        {
+          "x": 160,
+          "y": 41,
+          "width": 32,
+          "height": 32,
+          "offset": {
+            "x": -4,
+            "y": 0
+          },
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 200,
+          "y": 41,
+          "width": 32,
+          "height": 32,
+          "offset": {
+            "x": 9,
+            "y": 0
+          },
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        },
+        {
+          "x": 160,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "collider": {
+            "x": 8,
+            "y": 0,
+            "width": 16,
+            "height": 32
+          }
+        }
+      ]
+    }
+  },
+  "wosu": {
+    "health": {
+      "healthbars": 1,
+      "healthperbar": 8
+    },
+    "damage": 4,
+    "speed": {
+      "xvelocity": 20,
+      "yvelocity": 128,
+      "dx": 6,
+      "dy": 8
+    }
+  },
+  "bot": {
+    "health": {
+      "healthbars": 2,
+      "healthperbar": 8
+    },
+    "damage": 6,
+    "speed": {
+      "xvelocity": 80,
+      "yvelocity": 80,
+      "dx": 1,
+      "dy": 4
+    },
+    "aoe": {
+      "width": 512,
+      "height": 160
+    }
+  },
+  "stalfos": {
+    "health": {
+      "healthbars": 4,
+      "healthperbar": 8
+    },
+    "damage": 2,
+    "speed": {
+      "xvelocity": 20,
+      "yvelocity": 128,
+      "dx": 6,
+      "dy": 8
+    },
+    "aoe": {
+      "width": 100,
+      "height": 400
+    }
+  }
+}

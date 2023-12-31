@@ -17,6 +17,7 @@ class TickAnimator : public Animator {
 	float GetElapsedTimeNormalised(void) const {
 		return float(elapsedTime) / float(anim->GetDelay());
 	}
+	TickAnimation* GetAnimation() const { return anim; }
 
 	void Start(TickAnimation* a, double t) {
 		anim = a;

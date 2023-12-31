@@ -7,9 +7,9 @@
 
 namespace GameEngine {
 class CollisionChecker final {
+	static CollisionChecker singleton;
    public:
 	using Action = std::function<void(Graphics::Sprite* s1, Graphics::Sprite* s2)>;
-	static CollisionChecker singleton;
 
    protected:
 	using Entry = std::tuple<Graphics::Sprite*, Graphics::Sprite*, Action>;
@@ -23,7 +23,11 @@ class CollisionChecker final {
 		entries.push_back(std::make_tuple(s1, s2, f));
 	}
 	void Cancel(Graphics::Sprite* s1, Graphics::Sprite* s2);
+	void CleanUp() { entries.clear(); }
+	void RemoveDead();
+
 	void Check(void) const;
+
 	static auto GetSingleton(void) -> CollisionChecker& { return singleton; }
 	static auto GetSingletonConst(void) -> const CollisionChecker& {
 		return singleton;

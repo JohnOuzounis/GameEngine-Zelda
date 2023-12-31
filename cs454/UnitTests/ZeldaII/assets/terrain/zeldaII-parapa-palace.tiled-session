@@ -1,0 +1,77 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "parapa-palace-tilemap.tmj",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "Parapa-Palace-tileset.tsj": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "enemies-tileset.tsj": {
+            "dynamicWrapping": false,
+            "scaleInDock": 11,
+            "scaleInEditor": 1
+        },
+        "enemies-ts.tsj": {
+            "dynamicWrapping": false,
+            "scaleInDock": 4,
+            "scaleInEditor": 1
+        },
+        "item-tileset.tsj": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "items-tileset.tsj": {
+            "dynamicWrapping": false,
+            "scaleInDock": 8,
+            "scaleInEditor": 5.5
+        },
+        "link-tileset.tsj": {
+            "dynamicWrapping": false,
+            "scaleInDock": 4,
+            "scaleInEditor": 1
+        },
+        "parapa-palace-tilemap.tmj": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 2135,
+                "y": 510.5
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/john/OneDrive/Desktop/FrequentlyUsed/Homework/SEMESTER7/hy454/cs454/cs454/UnitTests/ZeldaII/assets/bitmaps",
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "parapa-palace-tilemap.tmj",
+        "enemies-tileset.tsj",
+        "link-tileset.tsj",
+        "enemies-ts.tsj",
+        "items-tileset.tsj"
+    ],
+    "project": "zeldaII-parapa-palace.tiled-project",
+    "recentFiles": [
+        "items-tileset.tsj",
+        "enemies-ts.tsj",
+        "link-tileset.tsj",
+        "enemies-tileset.tsj",
+        "parapa-palace-tilemap.tmj",
+        "item-tileset.tsj",
+        "Parapa-Palace-tileset.tsj"
+    ],
+    "tileset.lastUsedFormat": "json",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    },
+    "tileset.type": 0
+}

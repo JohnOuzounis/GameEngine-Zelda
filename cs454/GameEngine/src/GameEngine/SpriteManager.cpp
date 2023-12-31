@@ -26,3 +26,13 @@ void GameEngine::SpriteManager::Remove(Graphics::Sprite* s) {
 		}
 	}
 }
+
+void GameEngine::SpriteManager::CleanUp() {
+	while (!dpyList.empty()) {
+		Sprite* s = *dpyList.begin();
+		s->Destroy();
+		Remove(s);
+	}
+	dpyList.clear();
+	types.clear();
+}

@@ -9,7 +9,7 @@ class MovingAnimator : public Animator {
 	unsigned currRep = 0;  // animation state
    public:
 	virtual void Progress(double currTime) override;
-	auto GetAnim(void) const -> const MovingAnimation& { return *anim; }
+	auto GetAnim(void) const -> MovingAnimation* { return anim; }
 
 	void Start(MovingAnimation* a, double t) {
 		anim = a;

@@ -63,7 +63,7 @@ class GameScene : public GameEngine::Scene {
 	void LoadFilms();
 	void LoadAreaBounds();
 	void LoadVars();
-	void LoadAudio();
+	void LoadAudio() const;
 
 	void MakeDoll(int x, int y);
 	void MakeGauntlet(int x, int y, int dmg);
@@ -154,6 +154,31 @@ class GameScene : public GameEngine::Scene {
 								 "elevator.top3", "elevator.bot3");
 
 		AudioManager::Get().Play("audio/battle_area.wav", 128);
+
+		this->SetPause([]() {
+			auto theme = AudioManager::Get().GetAudio("audio/battle_area.wav");
+			if (!theme->IsPlaying())
+				theme = AudioManager::Get().GetAudio("audio/boss_battle.wav");
+			if (theme->IsPlaying())
+				theme->Pause();
+		});
+
+		this->SetResume([]() {
+			auto it =
+				SpriteManager::GetSingleton().GetTypeList("player").begin();
+			Player* player =
+				(it !=
+				 SpriteManager::GetSingleton().GetTypeList("player").end())
+					? (Player*)*it
+					: nullptr;
+			if (player)
+				player->Idle();
+
+			auto theme = AudioManager::Get().GetAudio("audio/battle_area.wav");
+			if (!theme->IsPlaying() && !theme->IsPaused())
+				theme = AudioManager::Get().GetAudio("audio/boss_battle.wav");
+			theme->Resume();
+		});
 	}
 
 	virtual void Save() override {}
@@ -332,6 +357,17 @@ class GameScene : public GameEngine::Scene {
 		using namespace GameEngine;
 		using namespace GameEngine::Graphics;
 
+		if (Input::GetKeyDown(Event::Ecsape)) {
+			if (!this->IsPaused()) {
+				this->Pause();
+			} else {
+				this->Resume();
+			}
+		}
+
+		if (this->IsPaused())
+			return;
+
 		auto it = SpriteManager::GetSingleton().GetTypeList("player").begin();
 		Player* player =
 			(it != SpriteManager::GetSingleton().GetTypeList("player").end())
@@ -396,5 +432,25 @@ class GameScene : public GameEngine::Scene {
 			GameEngine::SpriteManager::GetSingleton().GetTypeList("enemy");
 		for (auto enemy = enemylist.begin(); enemy != enemylist.end(); enemy++)
 			((Enemy*)(*enemy))->Start();
+	}
+
+	virtual void PauseResume() {
+		if (this->IsPaused()) {
+			GameEngine::Audio* theme =
+				AudioManager::Get().GetAudio("audio/battle_area.wav");
+			if (!theme->IsPlaying())
+				theme = AudioManager::Get().GetAudio("audio/boss_battle.wav");
+
+			if (theme->IsPlaying())
+				theme->Pause();
+		} else {
+			GameEngine::Audio* theme =
+				AudioManager::Get().GetAudio("audio/battle_area.wav");
+			if (!theme->IsPaused())
+				theme = AudioManager::Get().GetAudio("audio/boss_battle.wav");
+
+			if (theme->IsPaused())
+				theme->Resume();
+		}
 	}
 };

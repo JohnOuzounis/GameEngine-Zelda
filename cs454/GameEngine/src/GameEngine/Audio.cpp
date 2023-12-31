@@ -3,18 +3,25 @@
 #include <assert.h>
 
 void GameEngine::Audio::Stop() {
-	if (channel >= 0)
+	if (channel >= 0) {
 		Mix_HaltChannel(this->channel);
+		isPaused = false;
+		isPlaying = false;
+	}
 }
 
 void GameEngine::Audio::Pause() {
-	if (channel >= 0)
+	if (channel >= 0) {
 		Mix_Pause(this->channel);
+		isPaused = true;
+	}
 }
 
 void GameEngine::Audio::Resume() {
-	if (channel >= 0)
+	if (channel >= 0) {
 		Mix_Resume(this->channel);
+		isPaused = false;
+	}
 }
 
 void GameEngine::Audio::SetVolume(int volume) {
@@ -37,8 +44,11 @@ int GameEngine::Audio::GetVolume() const {
 }
 
 bool GameEngine::Audio::IsPlaying() const {
-	return channel != -1 &&
-	Mix_Playing(channel) != 0;
+	return channel != -1 && isPlaying && Mix_Playing(channel) != 0;
+}
+
+bool GameEngine::Audio::IsPaused() const {
+	return isPaused;
 }
 
 bool GameEngine::Audio::Load(std::string path) {
@@ -61,7 +71,9 @@ void GameEngine::Audio::Destroy() {
 
 void GameEngine::Audio::Play() {
 	if (sound) {
-		channel = Mix_PlayChannel(-1, sound, (this->loop) ? -1 : 0);	
+		channel = Mix_PlayChannel(-1, sound, (this->loop) ? -1 : 0);
+		isPaused = false;
+		isPlaying = true;
 	}
 }
 

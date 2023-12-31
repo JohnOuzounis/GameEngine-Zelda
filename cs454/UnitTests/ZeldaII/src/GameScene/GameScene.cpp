@@ -236,7 +236,7 @@ void GameScene::LoadVars() {
 				 ->GetValue();
 }
 
-void GameScene::LoadAudio() {
+void GameScene::LoadAudio() const {
 	AudioManager::Get().SetSoundEffectVolume(sfxVol);
 
 	AudioManager::Get().GetAudio("audio/boss_battle.wav")->SetLoop(true);

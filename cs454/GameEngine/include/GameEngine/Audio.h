@@ -9,6 +9,8 @@ class Audio {
    private:
 	Mix_Chunk* sound;
 	bool loop;
+	bool isPaused = false;
+	bool isPlaying = false;
 	int channel;
 
    public:
@@ -30,6 +32,7 @@ class Audio {
 	static int GetMasterVolume();
 
 	bool IsPlaying() const;
+	bool IsPaused() const;
 	bool IsLooped() const { return loop; }
 	void SetLoop(bool loop) { this->loop = loop; }
 };

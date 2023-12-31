@@ -28,12 +28,10 @@ void Zelda::Load() {
 	this->game.AddAnim(std::bind(&Zelda::Anim, this), false);
 	this->game.AddDestruct(std::bind(&Zelda::Destroy, this), false);
 	this->game.AddCollisions(std::bind(&Zelda::Collision, this), false);
-	this->game.AddCollisions(std::bind(&Zelda::AI, this), false);
+	this->game.AddAI(std::bind(&Zelda::AI, this), false);
 
 	try {
 		GameScene* scene = new GameScene(window, renderer);
-		scene->SetPause([&](double t) { game.Pause(t); });
-		scene->SetResume([&]() { game.Resume(); });
 		SceneManager::GetSceneManager().Add(scene);
 		SceneManager::GetSceneManager().LoadScene(0);
 	} catch (std::exception& e) {

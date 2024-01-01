@@ -651,12 +651,20 @@
         "width": 1216,
         "height": 256
       }
-    ]
+    ],
+    "playerhub": {
+      "x": 237,
+      "y": 2096,
+      "width": 256,
+      "height": 24
+    }
   },
   "link": {
     "health": {
       "healthbars": 5,
-      "healthperbar": 16
+      "healthperbar": 16,
+      "magicbars": 3,
+      "magicperbar": 8
     },
     "damage": 8,
     "speed": {

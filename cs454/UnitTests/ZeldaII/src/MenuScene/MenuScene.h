@@ -21,6 +21,7 @@
 #include <GameEngine/JSON/StringProperty.h>
 
 #include "MainMenu.h"
+#include "ControlsMenu.h"
 #include "../AudioManager.h"
 
 class MenuScene : public GameEngine::Scene {
@@ -29,7 +30,10 @@ class MenuScene : public GameEngine::Scene {
 	GameEngine::Graphics::Renderer* renderer;
 
 	MainMenu* menu = nullptr;
+	ControlsMenu* ctrls = nullptr;
+
 	GameEngine::Graphics::Button* button = nullptr;
+	GameEngine::Graphics::Button* ctrlButton = nullptr;
 	GameEngine::Graphics::Panel* ui = nullptr;
 
 	GameEngine::Json::Configurator appConfig;
@@ -51,7 +55,7 @@ class MenuScene : public GameEngine::Scene {
 		audio->Play();
 
 		button = new Button();
-		button->AddImage(Image::Create(250, 100, {100, 0, 255,50}));
+		button->AddImage(Image::Create(250, 100, {100, 0, 255, 50}));
 		button->AddImage(Image::Create(250, 100, {100, 0, 255, 100}));
 		button->AddImage(Image::Create(250, 100, {100, 0, 255, 150}));
 		button->SetText(new Text("START", Text::Font::Roboto_Bold, 60));
@@ -73,18 +77,43 @@ class MenuScene : public GameEngine::Scene {
 
 				button->GetImage().BlitScaled(
 					{0, 0, 0, 0}, target,
-					{target.GetWidth() / 2 - button->GetImage().GetWidth() / 2,
-					 target.GetHeight() / 2 - button->GetImage().GetHeight(),
-					 button->GetImage().GetWidth(),
-					 button->GetImage().GetHeight()});
+					button->GetPosition());
+			}
+		});
+
+		ctrlButton = new Button();
+		ctrlButton->AddImage(Image::Create(250, 60, {100, 0, 255, 50}));
+		ctrlButton->AddImage(Image::Create(250, 60, {100, 0, 255, 100}));
+		ctrlButton->AddImage(Image::Create(250, 60, {100, 0, 255, 150}));
+		ctrlButton->SetText(new Text("CONTROLS", Text::Font::Roboto_Bold, 40));
+		ctrlButton->SetPosition({417, 460, 250, 60});
+
+		ctrlButton->SetOnClick([&]() { ctrls->enabled = !ctrls->enabled; });
+		ctrlButton->SetOnDraw([&](Image& target) {
+			if (ctrlButton) {
+				Image* image = ctrlButton->GetText()->GetImage();
+				image->Blit({0, 0, 0, 0}, ctrlButton->GetImage(),
+							{ctrlButton->GetImage().GetWidth() / 2 -
+								 image->GetWidth() / 2,
+							 ctrlButton->GetImage().GetHeight() / 2 -
+								 image->GetHeight() / 2,
+							 ctrlButton->GetImage().GetWidth(),
+							 ctrlButton->GetImage().GetHeight()});
+				delete image;
+
+				ctrlButton->GetImage().BlitScaled({0, 0, 0, 0}, target,
+												  ctrlButton->GetPosition());
 			}
 		});
 
 		menu = new MainMenu(window->GetWidth(), window->GetHeight());
+		ctrls = new ControlsMenu(window->GetWidth(), window->GetHeight() / 3);
 		ui = new Panel(*window);
 
 		ui->Add(menu);
 		ui->Add(button);
+		ui->Add(ctrls);
+		ui->Add(ctrlButton);
 	}
 
 	virtual void Save() override {}
@@ -98,6 +127,12 @@ class MenuScene : public GameEngine::Scene {
 		if (button)
 			GameEngine::System::Destroy(button);
 
+		if (ctrls)
+			GameEngine::System::Destroy(ctrls);
+
+		if (ctrlButton)
+			GameEngine::System::Destroy(ctrlButton);
+
 		GameEngine::DestructionManager::Get().Commit();
 		GameEngine::AnimationFilmHolder::Get().CleanUp();
 		GameEngine::ImageLoader::GetImageLoader().CleanUp();
@@ -110,7 +145,10 @@ class MenuScene : public GameEngine::Scene {
 		renderer->Render();
 	}
 
-	virtual void Input() override { button->HandleEvent(); }
+	virtual void Input() override {
+		button->HandleEvent();
+		ctrlButton->HandleEvent();
+	}
 
 	virtual void ProgressAnimations() override {
 		GameEngine::AnimatorManager::GetSingleton().Progress(

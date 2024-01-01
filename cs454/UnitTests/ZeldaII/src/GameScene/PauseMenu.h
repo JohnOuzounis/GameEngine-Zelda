@@ -15,15 +15,12 @@ class PauseMenu : public GameEngine::Graphics::UIElement {
 
 		if (enabled) {
 			Image* image = text->GetImage();
-			Color* color = bg->GetColorAt({0, 0});
-			bg->Clear(*color);
 
 			image->Blit({0, 0, 0, 0}, *bg,
 						{bg->GetWidth() / 2 - image->GetWidth() / 2,
 						 bg->GetHeight() / 2 - image->GetHeight() / 2,
 						 image->GetWidth(), image->GetHeight()});
 			delete image;
-			delete color;
 
 			bg->Blit({0, 0, 0, 0}, target,
 					 {0, 0, bg->GetWidth(), bg->GetHeight()});

@@ -35,6 +35,7 @@
 #include "Stalfos.h"
 #include "Bot.h"
 #include "PauseMenu.h"
+#include "PlayerHub.h"
 #include "../AudioManager.h"
 
 #include <GameEngine/Debug.h>
@@ -60,6 +61,7 @@ class GameScene : public GameEngine::Scene {
 	Elevator* elevator2 = nullptr;
 	Elevator* elevator3 = nullptr;
 
+	PlayerHub* hub = nullptr;
 	PauseMenu* pauseMenu = nullptr;
 	GameEngine::Graphics::Panel* ui = nullptr;
 
@@ -135,9 +137,11 @@ class GameScene : public GameEngine::Scene {
 
 		displayBuffer = Image::Create(16 * 24, 16 * 16, {0, 0, 0, 255});
 
+		hub = new PlayerHub(window->GetWidth(), 96);
 		pauseMenu = new PauseMenu(window->GetWidth(), window->GetHeight());
 		ui = new GameEngine::Graphics::Panel(*window);
 		ui->Add(pauseMenu);
+		ui->Add(hub);
 
 		LoadMaps();
 		LoadFilms();
@@ -145,11 +149,10 @@ class GameScene : public GameEngine::Scene {
 		LoadVars();
 		LoadAudio();
 
-		MakePlayer();
+		Player* p = MakePlayer();
 		MakeDoor();
 		MakeGate();
 		camera = MakeCamera();
-
 
 		SpawnEnemies();
 		SpawnItems();
@@ -248,6 +251,17 @@ class GameScene : public GameEngine::Scene {
 			(it != SpriteManager::GetSingleton().GetTypeList("player").end())
 				? (Player*)*it
 				: nullptr;
+		if (player) {
+			hub->SetHealthBars(player->health.GetHealthBars());
+			hub->SetScore(player->scorePoints);
+			hub->SetMagicBars(player->magic.GetHealthBars());
+			hub->SetDamage(player->GetDamage());
+		} else {
+			hub->SetHealthBars(0);
+			hub->SetMagicBars(0);
+			hub->SetScore(0);
+		}
+
 		if (!player)
 			camera->Follow(nullptr);
 
@@ -378,7 +392,7 @@ class GameScene : public GameEngine::Scene {
 		renderer->Clear();
 		renderer->Copy(
 			tex, {0, 0, displayBuffer->GetWidth(), displayBuffer->GetHeight()},
-			{0, 0, window->GetWidth(), window->GetHeight()});
+			{0, 96, window->GetWidth(), window->GetHeight()-96});
 
 		ui->Render(*renderer);
 

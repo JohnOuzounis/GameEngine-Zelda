@@ -63,8 +63,8 @@ class Player : public GameEngine::Graphics::Sprite {
 
    public:
 	Health health;
+	Health magic;
 	int scorePoints = 0;
-	int magicPoints = 0;
 
 	bool isCrouched = false;
 	bool isLookingLeft = false;
@@ -230,9 +230,12 @@ class Player : public GameEngine::Graphics::Sprite {
 	}
 
 	void SetDamage(int dmg) { damage = dmg; }
-	int GetDamage() { return damage; }
+	int GetDamage() const { return damage; }
 	void SetHealth(int healthBars, int healthPerBar) {
 		health.SetHealth(healthBars, healthPerBar);
+	}
+	void SetMagic(int magicBars, int magicPerBar) {
+		magic.SetHealth(magicBars, magicPerBar);
 	}
 
 	void SpawnDamageSprite() {

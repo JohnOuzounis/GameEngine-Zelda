@@ -477,6 +477,16 @@ Player* GameScene::MakePlayer() {
 								 ->second)
 						   ->GetValue();
 
+	int mbars = (int)((NumericProperty*)health->GetProperties()
+						 .find("magicbars")
+						 ->second)
+				   ->GetValue();
+
+	int magic = (int)((NumericProperty*)health->GetProperties()
+								 .find("magicperbar")
+								 ->second)
+						   ->GetValue();
+
 	int dmg = (int)((NumericProperty*)((AggregateProperty*)appConfig
 										   .GetConfigurations()
 										   ->GetProperties()
@@ -492,6 +502,7 @@ Player* GameScene::MakePlayer() {
 		(AnimationFilm*)AnimationFilmHolder::Get().GetFilm("link.idle.right"));
 
 	player->SetHealth(bars, healthPerBar);
+	player->SetMagic(mbars, magic);
 	player->SetDamage(dmg);
 
 	player->SetCharacterController(*map->GetGridmap());
@@ -721,7 +732,7 @@ void GameScene::MakePotion(int x,
 		if (!player || !player->IsAlive())
 			return;
 
-		player->magicPoints += points;
+		player->magic.Heal(points);
 		AudioManager::Get().PlayEffect("audio/powerup.wav");
 	});
 }

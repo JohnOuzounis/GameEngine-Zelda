@@ -59,6 +59,13 @@ class Health {
 		}
 		return totalHealth;
 	}
+
+	int GetHealthBars() const {
+		int bars = 0;
+		for (int i = 0; i < health.size() && health[i] > 0; i++, bars++) {}
+		return bars;
+	}
+
 	int GetHealthPerBar() const { return healthPerBar; }
 
 	bool IsEmpty() { return health.size() > 0 && health[0] == 0; }

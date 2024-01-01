@@ -10,6 +10,7 @@ class Zelda : public GameEngine::app::App {
 	void Destroy();
 	void Collision();
 	void AI();
+	void User();
 
    public:
 	GameEngine::Graphics::Window* window = nullptr;

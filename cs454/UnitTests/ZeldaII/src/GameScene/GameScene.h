@@ -19,6 +19,7 @@
 #include <GameEngine/Graphics/Texture.h>
 #include <GameEngine/Graphics/Tilemap.h>
 #include <GameEngine/Graphics/Window.h>
+#include <GameEngine/Graphics/Panel.h>
 
 #include <GameEngine/JSON/ArrayProperty.h>
 #include <GameEngine/JSON/Configurator.h>
@@ -33,6 +34,7 @@
 #include "Wosu.h"
 #include "Stalfos.h"
 #include "Bot.h"
+#include "PauseMenu.h"
 #include "../AudioManager.h"
 
 #include <GameEngine/Debug.h>
@@ -56,6 +58,9 @@ class GameScene : public GameEngine::Scene {
 	Elevator* elevator = nullptr;
 	Elevator* elevator2 = nullptr;
 	Elevator* elevator3 = nullptr;
+
+	PauseMenu* pauseMenu = nullptr;
+	GameEngine::Graphics::Panel* ui = nullptr;
 
 	GameEngine::Json::Configurator appConfig;
 
@@ -119,8 +124,8 @@ class GameScene : public GameEngine::Scene {
 
    public:
 	GameScene(GameEngine::Graphics::Window* window,
-			  GameEngine::Graphics::Renderer* renderer)
-		: window(window), renderer(renderer) {}
+			  GameEngine::Graphics::Renderer* renderer, GameEngine::app::Game& game)
+		: Scene(game), window(window), renderer(renderer) {}
 
 	virtual void Load() override {
 		using namespace GameEngine;
@@ -128,6 +133,10 @@ class GameScene : public GameEngine::Scene {
 		using namespace GameEngine::Json;
 
 		displayBuffer = Image::Create(16 * 24, 16 * 16, {0, 0, 0, 255});
+
+		pauseMenu = new PauseMenu(window->GetWidth(), window->GetHeight());
+		ui = new GameEngine::Graphics::Panel(*window);
+		ui->Add(pauseMenu);
 
 		LoadMaps();
 		LoadFilms();
@@ -139,6 +148,7 @@ class GameScene : public GameEngine::Scene {
 		MakeDoor();
 		MakeGate();
 		camera = MakeCamera();
+
 
 		SpawnEnemies();
 		SpawnItems();
@@ -155,29 +165,40 @@ class GameScene : public GameEngine::Scene {
 
 		AudioManager::Get().Play("audio/battle_area.wav", 128);
 
-		this->SetPause([]() {
-			auto theme = AudioManager::Get().GetAudio("audio/battle_area.wav");
-			if (!theme->IsPlaying())
-				theme = AudioManager::Get().GetAudio("audio/boss_battle.wav");
-			if (theme->IsPlaying())
-				theme->Pause();
-		});
+		this->AddPauseResume([&]() {
+			if (this->IsPaused()) {
+				auto theme =
+					AudioManager::Get().GetAudio("audio/battle_area.wav");
+				if (!theme->IsPlaying())
+					theme =
+						AudioManager::Get().GetAudio("audio/boss_battle.wav");
+				if (theme->IsPlaying())
+					theme->Pause();
 
-		this->SetResume([]() {
-			auto it =
-				SpriteManager::GetSingleton().GetTypeList("player").begin();
-			Player* player =
-				(it !=
-				 SpriteManager::GetSingleton().GetTypeList("player").end())
-					? (Player*)*it
-					: nullptr;
-			if (player)
-				player->Idle();
+				pauseMenu->enabled = true;
+			} else {
+				auto it =
+					SpriteManager::GetSingleton().GetTypeList("player").begin();
+				Player* player =
+					(it !=
+					 SpriteManager::GetSingleton().GetTypeList("player").end())
+						? (Player*)*it
+						: nullptr;
+				if (player)
+					player->Idle();
 
-			auto theme = AudioManager::Get().GetAudio("audio/battle_area.wav");
-			if (!theme->IsPlaying() && !theme->IsPaused())
-				theme = AudioManager::Get().GetAudio("audio/boss_battle.wav");
-			theme->Resume();
+				auto theme =
+					AudioManager::Get().GetAudio("audio/battle_area.wav");
+				if (!theme->IsPlaying() && !theme->IsPaused())
+					theme =
+						AudioManager::Get().GetAudio("audio/boss_battle.wav");
+				theme->Resume();
+
+				AnimatorManager::GetSingleton().TimeShift(Time::getTime() -
+														  game.GetPauseTime());
+
+				pauseMenu->enabled = false;
+			}
 		});
 	}
 
@@ -200,6 +221,12 @@ class GameScene : public GameEngine::Scene {
 
 		if (displayBuffer)
 			GameEngine::System::Destroy(displayBuffer);
+
+		if (pauseMenu)
+			GameEngine::System::Destroy(pauseMenu);
+
+		if (ui)
+			GameEngine::System::Destroy(ui);
 
 		GameEngine::CollisionChecker::GetSingleton().CleanUp();
 		GameEngine::SpriteManager::GetSingleton().CleanUp();
@@ -350,6 +377,9 @@ class GameScene : public GameEngine::Scene {
 		renderer->Copy(
 			tex, {0, 0, displayBuffer->GetWidth(), displayBuffer->GetHeight()},
 			{0, 0, window->GetWidth(), window->GetHeight()});
+
+		ui->Render(*renderer);
+
 		renderer->Render();
 	}
 	
@@ -364,9 +394,30 @@ class GameScene : public GameEngine::Scene {
 				this->Resume();
 			}
 		}
+	}
 
-		if (this->IsPaused())
-			return;
+	virtual void ProgressAnimations() override {
+		GameEngine::AnimatorManager::GetSingleton().Progress(GameEngine::Time::getTime());
+	}
+
+	virtual void CommitDestructions() override {
+		GameEngine::CollisionChecker::GetSingleton().RemoveDead();
+		GameEngine::DestructionManager::Get().Commit();
+	}
+
+	virtual void CollisionChecking() override {
+		GameEngine::CollisionChecker::GetSingleton().Check();
+	}
+
+	virtual void AI() override {
+		auto& enemylist =
+			GameEngine::SpriteManager::GetSingleton().GetTypeList("enemy");
+		for (auto enemy = enemylist.begin(); enemy != enemylist.end(); enemy++)
+			((Enemy*)(*enemy))->Start();
+	}
+
+	virtual void UserCode() override {
+		using namespace GameEngine;
 
 		auto it = SpriteManager::GetSingleton().GetTypeList("player").begin();
 		Player* player =
@@ -414,43 +465,4 @@ class GameScene : public GameEngine::Scene {
 			((Door*)*gate)->Unlock();
 	}
 
-	virtual void ProgressAnimations() override {
-		GameEngine::AnimatorManager::GetSingleton().Progress(GameEngine::Time::getTime());
-	}
-
-	virtual void CommitDestructions() override {
-		GameEngine::CollisionChecker::GetSingleton().RemoveDead();
-		GameEngine::DestructionManager::Get().Commit();
-	}
-
-	virtual void CollisionChecking() override {
-		GameEngine::CollisionChecker::GetSingleton().Check();
-	}
-
-	virtual void AI() override {
-		auto& enemylist =
-			GameEngine::SpriteManager::GetSingleton().GetTypeList("enemy");
-		for (auto enemy = enemylist.begin(); enemy != enemylist.end(); enemy++)
-			((Enemy*)(*enemy))->Start();
-	}
-
-	virtual void PauseResume() {
-		if (this->IsPaused()) {
-			GameEngine::Audio* theme =
-				AudioManager::Get().GetAudio("audio/battle_area.wav");
-			if (!theme->IsPlaying())
-				theme = AudioManager::Get().GetAudio("audio/boss_battle.wav");
-
-			if (theme->IsPlaying())
-				theme->Pause();
-		} else {
-			GameEngine::Audio* theme =
-				AudioManager::Get().GetAudio("audio/battle_area.wav");
-			if (!theme->IsPaused())
-				theme = AudioManager::Get().GetAudio("audio/boss_battle.wav");
-
-			if (theme->IsPaused())
-				theme->Resume();
-		}
-	}
 };

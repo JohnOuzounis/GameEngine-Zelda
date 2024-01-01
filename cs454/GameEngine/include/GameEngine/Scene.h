@@ -1,40 +1,34 @@
 #pragma once
 #include <GameEngine/Time.h>
+#include <GameEngine/Game.h>
 #include <functional>
 namespace GameEngine {
 
 class Scene {
-   public:
-	using PauseGame = std::function<void()>;
-	using ResumeGame = std::function<void(void)>;
-
    protected:
-	PauseGame pause;
-	ResumeGame resume;
-	bool isPaused = false;
+	app::Game& game;
 
    public:
+	Scene(app::Game& game) : game(game) {}
 	virtual ~Scene() {}
 
 	virtual void Save() = 0;
 	virtual void Load() = 0;
 	virtual void CleanUp() = 0;
 
-	void SetPause(PauseGame p) { pause = p; }
-	void SetResume(ResumeGame r) { resume = r; }
+	void AddPauseResume(const app::Game::Action& p) {
+		game.AddPauseResume(p, false);
+	}
+
 	void Pause() {
-		isPaused = true;
-		Time::setTimeScale(0);
-		if (pause)
-			(pause)();
+		game.Pause(Time::getTime());
 	}
+
 	void Resume() {
-		isPaused = false;
-		Time::setTimeScale(1);
-		if (resume)
-			(resume)();
+		game.Resume();
 	}
-	bool IsPaused() const { return isPaused; }
+
+	bool IsPaused() const { return game.IsPaused(); }
 
 	virtual void Render() {}
 	virtual void ProgressAnimations() {}

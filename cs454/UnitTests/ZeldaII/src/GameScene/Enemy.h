@@ -110,18 +110,18 @@ class Enemy : public GameEngine::Graphics::Sprite {
 		bool isBlocked = position.Equals(original);
 		position = original;
 
-		auto rowright = (position.y + position.height + 1) /
+		auto row = (position.y + position.height + 1) /
 						controller->GetGridmap().GetGridTileHeight();
 		auto colright = (position.x + position.width + 1) /
 						controller->GetGridmap().GetGridTileWidth();
-		auto rowleft = (position.y + position.height + 1) /
-					   controller->GetGridmap().GetGridTileHeight();
 		auto colleft =
 			(position.x - 1) / controller->GetGridmap().GetGridTileWidth();
+		colleft = (colleft < 0) ? 0 : colleft;
+
 		bool hasReachedEdge = controller->GetGridmap().GetGridTile(
-								  rowright, colright) == GRID_EMPTY_TILE ||
+								  row, colright) == GRID_EMPTY_TILE ||
 							  controller->GetGridmap().GetGridTile(
-								  rowleft, colleft) == GRID_EMPTY_TILE;
+								  row, colleft) == GRID_EMPTY_TILE;
 
 		return !isBlocked && (!checkEdges || !hasReachedEdge);
 	}

@@ -29,9 +29,10 @@ void Zelda::Load() {
 	this->game.AddDestruct(std::bind(&Zelda::Destroy, this), false);
 	this->game.AddCollisions(std::bind(&Zelda::Collision, this), false);
 	this->game.AddAI(std::bind(&Zelda::AI, this), false);
+	this->game.AddUser(std::bind(&Zelda::User, this), false);
 
 	try {
-		GameScene* scene = new GameScene(window, renderer);
+		GameScene* scene = new GameScene(window, renderer, this->game);
 		SceneManager::GetSceneManager().Add(scene);
 		SceneManager::GetSceneManager().LoadScene(0);
 	} catch (std::exception& e) {
@@ -61,6 +62,10 @@ void Zelda::Collision() {
 
 void Zelda::AI() {
 	SceneManager::GetSceneManager().GetCurrentScene()->AI();
+}
+
+void Zelda::User() {
+	SceneManager::GetSceneManager().GetCurrentScene()->UserCode();
 }
 
 void Zelda::Clear() {

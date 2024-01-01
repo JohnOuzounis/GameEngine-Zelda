@@ -1,5 +1,6 @@
 #include "Zelda.h"
 #include "GameScene/GameScene.h"
+#include "MenuScene/MenuScene.h"
 
 #include <GameEngine/System.h>
 #include <GameEngine/SceneManager.h>
@@ -32,7 +33,10 @@ void Zelda::Load() {
 	this->game.AddUser(std::bind(&Zelda::User, this), false);
 
 	try {
+		MenuScene* menu = new MenuScene(window, renderer, this->game);
 		GameScene* scene = new GameScene(window, renderer, this->game);
+
+		SceneManager::GetSceneManager().Add(menu);
 		SceneManager::GetSceneManager().Add(scene);
 		SceneManager::GetSceneManager().LoadScene(0);
 	} catch (std::exception& e) {

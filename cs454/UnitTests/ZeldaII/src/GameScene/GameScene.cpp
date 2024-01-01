@@ -876,6 +876,18 @@ void GameScene::SpawnEnemies() {
 	MakeStalfos(
 		592, 288,
 		(AnimationFilm*)AnimationFilmHolder::Get().GetFilm("stalfos.right"));
+	MakeStalfos(
+		4032, 768,
+		(AnimationFilm*)AnimationFilmHolder::Get().GetFilm("stalfos.right"));
+	MakeStalfos(
+		4064, 768,
+		(AnimationFilm*)AnimationFilmHolder::Get().GetFilm("stalfos.right"));
+	MakeStalfos(
+		4128, 768,
+		(AnimationFilm*)AnimationFilmHolder::Get().GetFilm("stalfos.right"));
+	MakeStalfos(
+		4140, 768,
+		(AnimationFilm*)AnimationFilmHolder::Get().GetFilm("stalfos.right"));
 }
 
 void GameScene::SpawnItems() {

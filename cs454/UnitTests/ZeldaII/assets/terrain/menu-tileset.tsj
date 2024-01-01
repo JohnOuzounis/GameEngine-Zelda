@@ -1,0 +1,14 @@
+{ "columns":3,
+ "image":"..\/bitmaps\/NES - Zelda 2 The Adventure of Link - Title Screens & HUD.png",
+ "imageheight":2616,
+ "imagewidth":787,
+ "margin":0,
+ "name":"menu-tileset",
+ "spacing":0,
+ "tilecount":33,
+ "tiledversion":"1.10.2",
+ "tileheight":232,
+ "tilewidth":256,
+ "type":"tileset",
+ "version":"1.10"
+}

@@ -54,6 +54,7 @@ class GameScene : public GameEngine::Scene {
 
 	int lavaDmg = 0;
 	int sfxVol = 70;
+	bool gameover = false;
 
 	Elevator* elevator = nullptr;
 	Elevator* elevator2 = nullptr;
@@ -231,6 +232,7 @@ class GameScene : public GameEngine::Scene {
 		GameEngine::CollisionChecker::GetSingleton().CleanUp();
 		GameEngine::SpriteManager::GetSingleton().CleanUp();
 		GameEngine::AnimationFilmHolder::Get().CleanUp();
+		GameEngine::ImageLoader::GetImageLoader().CleanUp();
 		AudioManager::Get().CleanUp();
 		CommitDestructions();
 	}
@@ -463,6 +465,23 @@ class GameScene : public GameEngine::Scene {
 		if (gate != SpriteManager::GetSingleton().GetTypeList("gate").end() &&
 			(*gate)->IsVisible())
 			((Door*)*gate)->Unlock();
+
+		auto enemies =
+			SpriteManager::GetSingleton().GetTypeList("enemy").begin();
+		if (enemies ==
+			SpriteManager::GetSingleton().GetTypeList("enemy").end()) {
+			if (!AudioManager::Get()
+					 .GetAudio("audio/victory.wav")
+					 ->IsPlaying() &&
+				!gameover) {
+				gameover = true;
+				System::WaitForSeconds(0.6, []() {
+					AudioManager::Get().Play("audio/victory.wav", 128);
+				});
+				System::WaitForSeconds(
+					3, []() { SceneManager::GetSceneManager().LoadScene(0); });
+			}
+		}
 	}
 
 };

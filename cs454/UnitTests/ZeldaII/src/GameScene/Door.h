@@ -49,8 +49,15 @@ class Door : public GameEngine::Graphics::Sprite {
 
 		animator = new GameEngine::FrameListAnimator();
 		animator->SetOnStart([&](GameEngine::Animator* anim) {
-			if (this->isOpening)
+			if (this->isOpening) {
 				AudioManager::Get().PlayEffect("audio/door_open.wav");
+				if (!AudioManager::Get()
+						 .GetAudio("audio/battle_area.wav")
+						 ->IsPlaying()) {
+					AudioManager::Get().Play("audio/battle_area.wav", 128);
+					AudioManager::Get().Stop("audio/boss_battle.wav");
+				}
+			}
 			else {
 				AudioManager::Get().Stop("audio/battle_area.wav");
 				AudioManager::Get().PlayEffect("audio/Sound Effect (25).wav");

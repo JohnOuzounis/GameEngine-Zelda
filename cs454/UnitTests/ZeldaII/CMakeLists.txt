@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.18.4)
 
 # Executable
 add_executable(zelda 
-  "src/main.cpp" "src/Zelda.h" "src/Zelda.cpp" "src/GameScene/GameScene.h" "src/GameScene/GameScene.cpp" "src/GameScene/Player.h" "src/GameScene/Elevator.h" "src/GameScene/Door.h" "src/GameScene/Item.h" "src/AudioManager.h" "src/AudioManager.cpp" "src/GameScene/Enemy.h" "src/GameScene/Wosu.h" "src/GameScene/Health.h" "src/GameScene/Bot.h" "src/GameScene/Stalfos.h" "src/GameScene/PauseMenu.h")
+  "src/main.cpp" "src/Zelda.h" "src/Zelda.cpp" "src/GameScene/GameScene.h" "src/GameScene/GameScene.cpp" "src/GameScene/Player.h" "src/GameScene/Elevator.h" "src/GameScene/Door.h" "src/GameScene/Item.h" "src/AudioManager.h" "src/AudioManager.cpp" "src/GameScene/Enemy.h" "src/GameScene/Wosu.h" "src/GameScene/Health.h" "src/GameScene/Bot.h" "src/GameScene/Stalfos.h" "src/GameScene/PauseMenu.h" "src/MenuScene/MenuScene.h" "src/MenuScene/MainMenu.h" "src/MenuScene/MenuScene.cpp")
 
 # Include the 'include' directory for common headers
 target_include_directories(zelda PRIVATE ${CMAKE_SOURCE_DIR}/cs454/ThirdParty/include)

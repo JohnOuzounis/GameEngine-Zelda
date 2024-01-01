@@ -25,7 +25,8 @@ void GameEngine::Graphics::Button::HandleEvent() {
 	ms = Input::GetMouseState();
 	if (contains(ms)) {
 		state = Hovered;
-		OnHover();
+		if (hover)
+			(hover)();
 	} else {
 		state = Default;
 	}
@@ -34,13 +35,15 @@ void GameEngine::Graphics::Button::HandleEvent() {
 		ms = Input::GetMouseState();
 		if (contains(ms)) {
 			state = Clicked;
-			OnClick();
+			if (click)
+				(click)();
 		}
 	} else if (Input::GetMouseButtonUp(Input::MouseLeft)) {
 		ms = Input::GetMouseState();
 		if (contains(ms)) {
 			state = Hovered;
-			OnRelease();
+			if (release)
+				(release)();
 		}
 	}
 }

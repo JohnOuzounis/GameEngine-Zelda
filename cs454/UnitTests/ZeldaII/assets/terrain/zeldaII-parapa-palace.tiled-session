@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "parapa-palace-tilemap.tmj",
+    "activeFile": "menu-tileset.tsj",
     "expandedProjectPaths": [
         "."
     ],
@@ -38,12 +38,16 @@
             "scaleInDock": 4,
             "scaleInEditor": 1
         },
+        "menu-tileset.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "parapa-palace-tilemap.tmj": {
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1291,
-                "y": 754.5
+                "x": 2239,
+                "y": 510.5
             }
         }
     },
@@ -56,22 +60,24 @@
         "enemies-tileset.tsj",
         "link-tileset.tsj",
         "enemies-ts.tsj",
-        "items-tileset.tsj"
+        "items-tileset.tsj",
+        "menu-tileset.tsj"
     ],
     "project": "zeldaII-parapa-palace.tiled-project",
     "recentFiles": [
-        "items-tileset.tsj",
-        "enemies-ts.tsj",
-        "link-tileset.tsj",
-        "enemies-tileset.tsj",
+        "menu-tileset.tsj",
         "parapa-palace-tilemap.tmj",
+        "enemies-tileset.tsj",
+        "link-tileset.tsj",
+        "enemies-ts.tsj",
+        "items-tileset.tsj",
         "item-tileset.tsj",
         "Parapa-Palace-tileset.tsj"
     ],
     "tileset.lastUsedFormat": "json",
     "tileset.tileSize": {
-        "height": 32,
-        "width": 32
+        "height": 232,
+        "width": 256
     },
     "tileset.type": 0
 }

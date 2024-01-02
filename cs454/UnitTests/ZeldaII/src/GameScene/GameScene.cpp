@@ -381,6 +381,7 @@ Stalfos* GameScene::MakeStalfos(int x, int y, GameEngine::AnimationFilm* film) {
 	stalfos->SetOnDeath([&, stalfos]() {
 		MakePointbag(((BoxCollider2D*)stalfos->GetCollider())->GetX(),
 					 ((BoxCollider2D*)stalfos->GetCollider())->GetY(), 30);
+		stalfos->DespawnDamageSprite();
 	});
 	stalfos->SetOnAttack([stalfos](Sprite* s1, Sprite* s2) {
 		if (s2 && s2->IsAlive()) {

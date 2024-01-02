@@ -239,6 +239,9 @@ class Player : public GameEngine::Graphics::Sprite {
 	}
 
 	void SpawnDamageSprite() {
+		using namespace GameEngine;
+		using namespace GameEngine::Graphics;
+
 		int cw = (isCrouched) ? 12 : 16;
 		int ch = 8;
 		int cx = (isLookingLeft) ? position.x - cw : position.x + position.width;
@@ -261,15 +264,48 @@ class Player : public GameEngine::Graphics::Sprite {
 				[&,cdmg](GameEngine::Graphics::Sprite* s1,
 					   GameEngine::Graphics::Sprite* s2) {
 					if (s2->IsAlive()) {
-						if (this->health.IsFull())
-						{
+						if (this->health.IsFull()) {
+							Sprite* explosion = new Sprite(
+								((BoxCollider2D*)s2->GetCollider())->GetX(),
+								((BoxCollider2D*)s2->GetCollider())->GetY(),
+								(AnimationFilm*)AnimationFilmHolder::Get()
+									.GetFilm("explosion.idle"),
+								"explosion");
+							explosion->SetVisibility(true);
+
+							FrameListAnimator* explosionAnim =
+								new FrameListAnimator();
+							explosionAnim->SetOnStart([](Animator* anim) {
+								if (anim->IsAlive())
+									AudioManager::Get().PlayEffect(
+										"audio/explosion_hit.wav");
+							});
+							explosionAnim->SetOnAction(
+								[explosion](Animator* anim,
+											const Animation& a) {
+									if (anim->IsAlive() && explosion->IsAlive())
+										explosion->SetFrame(
+											((FrameListAnimator*)anim)
+												->GetCurrFrame());
+								});
+							explosionAnim->SetOnFinish(
+								[explosion](Animator* anim) {
+									if (anim->IsAlive())
+										delete ((FrameListAnimator*)anim)
+											->GetAnimation();
+									anim->Destroy();
+									explosion->Destroy();
+								});
+							explosionAnim->Start(
+								new FrameListAnimation("explosion.idle",
+													   {0, 1, 2, 3}, 1, 0, 0,
+													   0.1),
+								Time::getTime());
+
 							GameEngine::Debug::Log("spawned");
 							GameEngine::System::WaitForSeconds(0.5, []() {
 								GameEngine::Debug::Log("despawned");
 							});
-							// spawn explosion at s2.collider
-							// play explosion sound
-							// destroy after few seconds
 						}
 						((Enemy*)s2)->TakeDamage(cdmg);
 						if (s1->IsAlive()) {
@@ -342,6 +378,7 @@ class Player : public GameEngine::Graphics::Sprite {
 	void Die() {
 		canMove = false;
 		this->SetVisibility(false);
+		DespawnDamageSprite();
 		AudioManager::Get().Play("audio/gameover.wav", 128);
 		this->Destroy();
 

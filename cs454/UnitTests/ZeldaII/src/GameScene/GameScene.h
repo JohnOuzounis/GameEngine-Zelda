@@ -34,6 +34,7 @@
 #include "Wosu.h"
 #include "Stalfos.h"
 #include "Bot.h"
+#include "Guma.h"
 #include "PauseMenu.h"
 #include "PlayerHub.h"
 #include "../AudioManager.h"
@@ -96,6 +97,7 @@ class GameScene : public GameEngine::Scene {
 					 GameEngine::AnimationFilm* film);
 	Wosu* MakeWosu(int x, int y, GameEngine::AnimationFilm* film);
 	Stalfos* MakeStalfos(int x, int y, GameEngine::AnimationFilm* film);
+	Guma* MakeGuma(int x, int y, GameEngine::AnimationFilm* film);
 	Bot* MakeBot(int x, int y);
 
 	Player* MakePlayer();
@@ -180,7 +182,9 @@ class GameScene : public GameEngine::Scene {
 					theme->Pause();
 
 				pauseMenu->enabled = true;
+				Time::setTimeScale(0);
 			} else {
+				Time::setTimeScale(1);
 				auto it =
 					SpriteManager::GetSingleton().GetTypeList("player").begin();
 				Player* player =

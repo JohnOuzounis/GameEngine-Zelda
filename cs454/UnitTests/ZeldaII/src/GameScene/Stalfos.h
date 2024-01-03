@@ -15,6 +15,7 @@ class Stalfos : public Enemy {
 	bool spawned = false;
 	bool extented = false;
 	static int attackId;
+	int id = 0;
 
 	GameEngine::Graphics::Rect aoe;
 	GameEngine::Graphics::Rect collider;
@@ -45,7 +46,7 @@ class Stalfos : public Enemy {
 			GameEngine::AnimationFilm* film)
 		: Enemy(x, y, dx, dy, xvelocity, yvelocity, film, "enemy", "stalfos") {
 
-		Stalfos::attackId++;
+		id = Stalfos::attackId++;
 
 		this->SetVisibility(false);
 		aoe = {0, 0, 0, 0};
@@ -189,9 +190,9 @@ class Stalfos : public Enemy {
 		int cy = y;
 
 		GameEngine::Graphics::Sprite* dmgCol = new GameEngine::Graphics::Sprite(
-			cx, cy, nullptr, std::to_string(attackId));
+			cx, cy, nullptr, std::to_string(id));
 		dmgCol->SetCollider(new GameEngine::BoxCollider2D(
-			cx, cy, cw, ch, std::to_string(attackId)));
+			cx, cy, cw, ch, std::to_string(id)));
 
 		auto it = GameEngine::SpriteManager::GetSingleton()
 					  .GetTypeList("player")
@@ -217,10 +218,10 @@ class Stalfos : public Enemy {
 
 	void DespawnDamageSprite() {
 		for (auto attack = GameEngine::SpriteManager::GetSingleton()
-							   .GetTypeList(std::to_string(attackId))
+							   .GetTypeList(std::to_string(id))
 							   .begin();
 			 attack != GameEngine::SpriteManager::GetSingleton()
-						   .GetTypeList(std::to_string(attackId))
+						   .GetTypeList(std::to_string(id))
 						   .end(); attack++) {
 			if ((*attack)->IsAlive()) {
 				delete (*attack)->GetCollider();

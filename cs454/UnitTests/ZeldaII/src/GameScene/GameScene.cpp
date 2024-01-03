@@ -2,6 +2,7 @@
 #include <GameEngine/BoxCollider2D.h>
 
 int Stalfos::attackId = 0;
+int Guma::attackId = 0;
 
 using namespace GameEngine;
 using namespace GameEngine::Graphics;
@@ -400,6 +401,47 @@ Stalfos* GameScene::MakeStalfos(int x, int y, GameEngine::AnimationFilm* film) {
 	stalfos->SetAreaOfEffect(w, h);
 
 	return stalfos;
+}
+
+Guma* GameScene::MakeGuma(int x, int y, GameEngine::AnimationFilm* film) {
+	AggregateProperty* aoe =
+		(AggregateProperty*)((AggregateProperty*)appConfig.GetConfigurations()
+								 ->GetProperties()
+								 .find("guma")
+								 ->second)
+			->GetProperties()
+			.find("aoe")
+			->second;
+
+	int w = (int)((NumericProperty*)aoe->GetProperties().find("width")->second)
+				->GetValue();
+
+	int h = (int)((NumericProperty*)aoe->GetProperties().find("height")->second)
+				->GetValue();
+
+	Guma* guma = MakeCharacter<Guma>(x, y, "guma", film);
+	guma->SetOnDeath([&, guma]() {
+		MakePointbag(((BoxCollider2D*)guma->GetCollider())->GetX(),
+					 ((BoxCollider2D*)guma->GetCollider())->GetY(), 50);
+		guma->DespawnDamageSprite();
+	});
+	guma->SetOnAttack([guma](Sprite* s1, Sprite* s2) {
+		if (s2 && s2->IsAlive()) {
+			if (!((Player*)s2)
+					 ->CheckBlockedAttack(
+						 ((BoxCollider2D*)s1->GetCollider())->GetRect()))
+				((Player*)s2)->TakeDamage(guma->GetDamage());
+			if (s1->IsAlive()) {
+				delete s1->GetCollider();
+				s1->Destroy();
+			}
+		}
+	});
+	guma->SetOnTakeDamage(
+		[]() { AudioManager::Get().PlayEffect("audio/hit_enemy.wav"); });
+	guma->SetAreaOfEffect(w, h);
+
+	return guma;
 }
 
 Bot* GameScene::MakeBot(int x, int y) {
@@ -900,6 +942,11 @@ void GameScene::SpawnEnemies() {
 	MakeStalfos(
 		4140, 768,
 		(AnimationFilm*)AnimationFilmHolder::Get().GetFilm("stalfos.right"));
+
+	MakeGuma(2368, 720,
+			 (AnimationFilm*)AnimationFilmHolder::Get().GetFilm("guma.left"));
+	MakeGuma(2512, 640,
+			 (AnimationFilm*)AnimationFilmHolder::Get().GetFilm("guma.right"));
 }
 
 void GameScene::SpawnItems() {

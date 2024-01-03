@@ -301,11 +301,6 @@ class Player : public GameEngine::Graphics::Sprite {
 													   {0, 1, 2, 3}, 1, 0, 0,
 													   0.1),
 								Time::getTime());
-
-							GameEngine::Debug::Log("spawned");
-							GameEngine::System::WaitForSeconds(0.5, []() {
-								GameEngine::Debug::Log("despawned");
-							});
 						}
 						((Enemy*)s2)->TakeDamage(cdmg);
 						if (s1->IsAlive()) {
@@ -487,12 +482,6 @@ class Player : public GameEngine::Graphics::Sprite {
 		auto anim = (isLookingLeft) ? animations[LINK_IDLE_LEFT]
 									: animations[LINK_IDLE_RIGHT];
 		isCrouched = false;
-
-		if (!CanMove(0, -1)) {
-			isCrouched = true;
-			anim = (FrameListAnimation*)animator->GetAnimation();
-		}
-
 		if (anim) {
 			animator->Stop();
 			animator->Start(anim, Time::getTime());

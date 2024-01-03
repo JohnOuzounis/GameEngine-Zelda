@@ -37,6 +37,7 @@ void GameEngine::app::Game::MainLoopIteration() {
 			CommitDestructions();
 		}
 	} catch (std::exception& e) {
+		Debug::Log(e.what());
 		return;
 	}
 }

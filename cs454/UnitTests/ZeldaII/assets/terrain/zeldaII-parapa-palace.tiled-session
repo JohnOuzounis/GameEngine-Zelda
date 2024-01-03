@@ -43,11 +43,11 @@
             "scaleInEditor": 1
         },
         "parapa-palace-tilemap.tmj": {
-            "scale": 1,
+            "scale": 0.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 2135,
-                "y": 510.5
+                "x": 2038,
+                "y": 607
             }
         }
     },

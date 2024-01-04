@@ -4,6 +4,7 @@
 #include <GameEngine/Animation/MovingAnimator.h>
 #include <GameEngine/Animation/AnimationFilmHolder.h>
 
+#include <GameEngine/Debug.h>
 #include <GameEngine/System.h>
 
 class Wosu : public Enemy {
@@ -45,11 +46,15 @@ class Wosu : public Enemy {
 						((GameEngine::FrameListAnimation*)&a)->GetDx(),
 						((GameEngine::FrameListAnimation*)&a)->GetDy());
 				} else if (fallAnimator->HasFinished()) {
-					isLookingLeft = !isLookingLeft;
-					MoveCharacter(
-						-((GameEngine::FrameListAnimation*)&a)->GetDx(),
-						((GameEngine::FrameListAnimation*)&a)->GetDy());
-					anim->Stop();
+					if (CanMove(-((GameEngine::FrameListAnimation*)&a)->GetDx(),
+								((GameEngine::FrameListAnimation*)&a)->GetDy(),
+								true)) {
+						isLookingLeft = !isLookingLeft;
+						MoveCharacter(
+							-((GameEngine::FrameListAnimation*)&a)->GetDx(),
+							((GameEngine::FrameListAnimation*)&a)->GetDy());
+						anim->Stop();
+					}
 				}
 
 				gravity.Check(position);

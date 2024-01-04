@@ -644,7 +644,7 @@
       }
     },
     "scrollspeed": 5,
-    "lavadamage": 8,
+    "lavadamage": 32,
     "sfxvol": 50,
     "areas": [
       {
@@ -690,7 +690,7 @@
       "healthbars": 5,
       "healthperbar": 16,
       "magicbars": 3,
-      "magicperbar": 8
+      "magicperbar": 64
     },
     "damage": 8,
     "speed": {

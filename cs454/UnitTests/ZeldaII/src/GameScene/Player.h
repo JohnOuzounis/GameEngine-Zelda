@@ -35,6 +35,7 @@
 #include "Health.h"
 #include "Enemy.h"
 #include "Item.h"
+#include "Spell.h"
 #include "../AudioManager.h"
 
 class Player : public GameEngine::Graphics::Sprite {
@@ -61,9 +62,15 @@ class Player : public GameEngine::Graphics::Sprite {
 	int dy = 0;
 	int damage = 0;
 
+	float damageReduce = 0;
+
    public:
 	Health health;
 	Health magic;
+
+	Spell superJump;
+	Spell shield;
+
 	int scorePoints = 0;
 
 	bool isCrouched = false;
@@ -148,6 +155,36 @@ class Player : public GameEngine::Graphics::Sprite {
 							.GetFilm(a.GetId()));
 			SetFrame(((GameEngine::FrameListAnimator*)anim)->GetCurrFrame());
 		});
+		animator->SetOnFinish([&](GameEngine::Animator* anim) {
+			if (!anim->IsAlive())
+				return;
+
+			if (isCrouched && (currFilm->GetId() == LINK_CROUCH_ATTACK_LEFT ||
+							   currFilm->GetId() == LINK_CROUCH_ATTACK_RIGHT)) {
+				Crouch();
+			}
+		});
+
+		superJump.SetOnActivate([&]() {
+			this->dy *= 2;
+			AudioManager::Get().PlayEffect("audio/Sound Effect (18).wav");
+		});
+		superJump.SetOnDeactivate([&]() {
+			this->dy /= 2;
+			AudioManager::Get().PlayEffect("audio/Sound Effect (13).wav");
+		});
+		superJump.SetCost(48);
+
+		
+		shield.SetOnActivate([&]() {
+			this->damageReduce = 0.5;
+			AudioManager::Get().PlayEffect("audio/Sound Effect (18).wav");
+		});
+		shield.SetOnDeactivate([&]() {
+			this->damageReduce = 0;
+			AudioManager::Get().PlayEffect("audio/Sound Effect (13).wav");
+		});
+		shield.SetCost(32);
 
 		jump = new GameEngine::MovingAnimation("link.jump", 6, 0, -dy,
 											   dy / yvelocity);
@@ -158,8 +195,7 @@ class Player : public GameEngine::Graphics::Sprite {
 					return;
 
 				auto prev = position;
-				MoveCharacter(((GameEngine::FrameListAnimation*)&a)->GetDx(),
-							  ((GameEngine::FrameListAnimation*)&a)->GetDy());
+				MoveCharacter(0, -this->dy);
 				gravity.Check(position);
 				if (prev.y == position.y) {
 					jumpAnimator->Stop();
@@ -355,14 +391,15 @@ class Player : public GameEngine::Graphics::Sprite {
 		GameEngine::BoxCollider2D me(cx, cy, cw, ch, "me");
 		GameEngine::BoxCollider2D box(other.x, other.y, other.width, other.height, "other");
 
-		return me.Overlap(box);
+		return me.Overlap(box) && (currFilm->GetId() == LINK_CROUCH_LEFT ||
+								   currFilm->GetId() == LINK_CROUCH_RIGHT);
 	}
 	void TakeDamage(int damage) {
 		if (!damageAnimator->HasFinished())
 			return;
 
 		damageAnimator->Start(dmg, GameEngine::Time::getTime());
-		health.TakeDamage(damage);
+		health.TakeDamage(damage * (1 - damageReduce));
 
 		if (health.IsEmpty()) {
 			damageAnimator->Stop();
@@ -432,6 +469,13 @@ class Player : public GameEngine::Graphics::Sprite {
 		if (Input::GetKeyUp(Event::Down)) {
 			Stand();
 		}
+
+		if (Input::GetKeyDown(Event::F)) {
+			SuperJump();
+		}
+		if (Input::GetKeyDown(Event::G)) {
+			Shield();
+		}
 	}
 
 	void SetCharacterPosition(int offsetX, int offsetY, int width, int height) {
@@ -479,13 +523,8 @@ class Player : public GameEngine::Graphics::Sprite {
 
 	void Stand() {
 		using namespace GameEngine;
-		auto anim = (isLookingLeft) ? animations[LINK_IDLE_LEFT]
-									: animations[LINK_IDLE_RIGHT];
 		isCrouched = false;
-		if (anim) {
-			animator->Stop();
-			animator->Start(anim, Time::getTime());
-		}
+		Idle();
 	}
 
 	void Walk() {
@@ -543,6 +582,30 @@ class Player : public GameEngine::Graphics::Sprite {
 
 		if (jumpAnimator->HasFinished() && fallAnimator->HasFinished())
 			jumpAnimator->Start(jump, GameEngine::Time::getTime());
+	}
+
+	void SuperJump() {
+		if (!superJump.IsActivated() &&
+			magic.GetTotalHealth() - superJump.GetCost() >= 0) {
+			superJump.Activate();
+			magic.TakeDamage(superJump.GetCost());
+		}
+		GameEngine::System::WaitForSeconds(10, [&]() {
+			if (superJump.IsActivated())
+				superJump.Deactivate();
+		});
+	}
+
+	void Shield() {
+		if (!shield.IsActivated() &&
+			magic.GetTotalHealth() - shield.GetCost() >= 0) {
+			shield.Activate();
+			magic.TakeDamage(shield.GetCost());
+		}
+		GameEngine::System::WaitForSeconds(10, [&]() {
+			if (shield.IsActivated())
+				shield.Deactivate();
+		});
 	}
 
 	void Fall() {

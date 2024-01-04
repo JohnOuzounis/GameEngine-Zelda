@@ -14,7 +14,7 @@ class Guma : public Enemy {
    private:
 	static int attackId;
 	int id = 0;
-
+	bool isLookingAtTarget = false;
 	GameEngine::Graphics::Rect aoe;
 
    public:
@@ -75,8 +75,11 @@ class Guma : public Enemy {
 				if (aoe.In(target->GetBox().x, target->GetBox().y)) {
 					auto prev = isLookingLeft;
 					isLookingLeft = (target->GetBox().x - position.x < 0);
+					isLookingAtTarget = true;
 					if (prev != isLookingLeft)
 						anim->Stop();
+				} else {
+					isLookingAtTarget = false;
 				}
 			}
 
@@ -88,7 +91,7 @@ class Guma : public Enemy {
 						((GameEngine::FrameListAnimation*)&a)->GetDy(), true))
 				MoveCharacter(((GameEngine::FrameListAnimation*)&a)->GetDx(),
 							  ((GameEngine::FrameListAnimation*)&a)->GetDy());
-			else {
+			else if (!isLookingAtTarget) {
 				isLookingLeft = !isLookingLeft;
 				MoveCharacter(-((GameEngine::FrameListAnimation*)&a)->GetDx(),
 							  ((GameEngine::FrameListAnimation*)&a)->GetDy());

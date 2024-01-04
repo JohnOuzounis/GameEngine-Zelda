@@ -7,6 +7,7 @@
 #include <GameEngine/CharacterController.h>
 #include <GameEngine/BoxCollider2D.h>
 #include <GameEngine/Time.h>
+#include <GameEngine/Debug.h>
 
 #include <functional>
 #include "Health.h"
@@ -108,7 +109,6 @@ class Enemy : public GameEngine::Graphics::Sprite {
 		auto original = position;
 		controller->Move(dx, dy);
 		bool isBlocked = position.Equals(original);
-		position = original;
 
 		auto row = (position.y + position.height + 1) /
 						controller->GetGridmap().GetGridTileHeight();
@@ -122,7 +122,7 @@ class Enemy : public GameEngine::Graphics::Sprite {
 								  row, colright) == GRID_EMPTY_TILE ||
 							  controller->GetGridmap().GetGridTile(
 								  row, colleft) == GRID_EMPTY_TILE;
-
+		position = original;
 		return !isBlocked && (!checkEdges || !hasReachedEdge);
 	}
 

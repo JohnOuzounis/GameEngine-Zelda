@@ -25,7 +25,7 @@ class Health {
 	}
 
 	void TakeDamage(int damage) {
-		for (int i = health.size()-1; i >= 0 && damage > 0; i--) {
+		for (int i = (int)health.size()-1; i >= 0 && damage > 0; i--) {
 			if (health[i] > 0) {
 				int damageTaken = GameEngine::Math::Min(health[i], damage);
 				health[i] -= damageTaken;

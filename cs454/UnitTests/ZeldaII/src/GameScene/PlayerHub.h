@@ -99,7 +99,7 @@ class PlayerHub : public GameEngine::Graphics::UIElement {
 
 		std::string scoreString = std::to_string(score);
 
-		for (int i = scoreString.length() - 1; i >= 0; i--) {
+		for (int i = (int)scoreString.length() - 1; i >= 0; i--) {
 			int digit = scoreString[i] - '0';
 			numbers[digit]->Blit(
 				{0, 0, 0, 0}, *copy,

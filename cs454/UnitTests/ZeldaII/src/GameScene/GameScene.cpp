@@ -901,13 +901,13 @@ Item* GameScene::MakeItem(int x,
 }
 
 void GameScene::SpawnEnemies() {
-	MakeWosu(1072, 720,
+	MakeWosu(1072, 688,
 			 (AnimationFilm*)AnimationFilmHolder::Get().GetFilm("wosu.right"));
-	MakeWosu(1216, 720,
+	MakeWosu(1216, 688,
 			 (AnimationFilm*)AnimationFilmHolder::Get().GetFilm("wosu.left"));
-	MakeWosu(1312, 720,
+	MakeWosu(1312, 688,
 			 (AnimationFilm*)AnimationFilmHolder::Get().GetFilm("wosu.right"));
-	MakeWosu(1936, 720,
+	MakeWosu(1936, 688,
 			 (AnimationFilm*)AnimationFilmHolder::Get().GetFilm("wosu.left"));
 	MakeWosu(1430, 150,
 			 (AnimationFilm*)AnimationFilmHolder::Get().GetFilm("wosu.right"));
@@ -922,7 +922,7 @@ void GameScene::SpawnEnemies() {
 	MakeBot(2176, 480);
 	MakeBot(2560, 672);
 	MakeBot(1952, 560);
-	MakeBot(3360, 992);
+	MakeBot(3360, 960);
 
 	MakeStalfos(
 		288, 288,
@@ -943,7 +943,7 @@ void GameScene::SpawnEnemies() {
 		4140, 768,
 		(AnimationFilm*)AnimationFilmHolder::Get().GetFilm("stalfos.right"));
 
-	MakeGuma(2368, 720,
+	MakeGuma(2368, 688,
 			 (AnimationFilm*)AnimationFilmHolder::Get().GetFilm("guma.left"));
 	MakeGuma(2512, 640,
 			 (AnimationFilm*)AnimationFilmHolder::Get().GetFilm("guma.right"));

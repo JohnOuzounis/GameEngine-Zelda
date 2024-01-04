@@ -11,32 +11,32 @@
 
 #include <GameEngine/Animation/AnimationFilm.h>
 #include <GameEngine/Animation/AnimationFilmHolder.h>
+#include <GameEngine/Animation/FlashAnimator.h>
 #include <GameEngine/Animation/FrameListAnimator.h>
 #include <GameEngine/Animation/MovingAnimator.h>
-#include <GameEngine/Animation/FlashAnimator.h>
 #include <GameEngine/Animation/TickAnimator.h>
 
-#include <GameEngine/SceneManager.h>
+#include <GameEngine/BoxCollider2D.h>
 #include <GameEngine/CharacterController.h>
+#include <GameEngine/CollisionChecker.h>
 #include <GameEngine/Debug.h>
 #include <GameEngine/Graphics/Gridmap.h>
 #include <GameEngine/Graphics/Rect.h>
 #include <GameEngine/Graphics/Sprite.h>
 #include <GameEngine/Input.h>
+#include <GameEngine/SceneManager.h>
+#include <GameEngine/SpriteManager.h>
 #include <GameEngine/System.h>
 #include <GameEngine/Time.h>
-#include <GameEngine/BoxCollider2D.h>
-#include <GameEngine/SpriteManager.h>
-#include <GameEngine/CollisionChecker.h>
 
 #include <cassert>
 #include <unordered_map>
 
-#include "Health.h"
+#include "../AudioManager.h"
 #include "Enemy.h"
+#include "Health.h"
 #include "Item.h"
 #include "Spell.h"
-#include "../AudioManager.h"
 
 class Player : public GameEngine::Graphics::Sprite {
 	GameEngine::CharacterController* controller = nullptr;
@@ -55,6 +55,10 @@ class Player : public GameEngine::Graphics::Sprite {
 
 	GameEngine::FlashAnimation* dmg = nullptr;
 	GameEngine::FlashAnimator* damageAnimator = nullptr;
+
+	GameEngine::TickAnimation* tick = nullptr;
+	GameEngine::TickAnimator* shieldAnim = nullptr;
+	GameEngine::TickAnimator* superjumpAnim = nullptr;
 
 	float xvelocity = 0;
 	float yvelocity = 0;
@@ -165,6 +169,8 @@ class Player : public GameEngine::Graphics::Sprite {
 			}
 		});
 
+		tick = new GameEngine::TickAnimation("tick", 10, 1, true);
+
 		superJump.SetOnActivate([&]() {
 			this->dy *= 2;
 			AudioManager::Get().PlayEffect("audio/Sound Effect (18).wav");
@@ -175,7 +181,13 @@ class Player : public GameEngine::Graphics::Sprite {
 		});
 		superJump.SetCost(48);
 
-		
+		superjumpAnim = new GameEngine::TickAnimator();
+		superjumpAnim->SetOnFinish([&](GameEngine::Animator* a) {
+			if (a->IsAlive() && this->IsAlive())
+				if (superJump.IsActivated())
+					superJump.Deactivate();
+		});
+
 		shield.SetOnActivate([&]() {
 			this->damageReduce = 0.5;
 			AudioManager::Get().PlayEffect("audio/Sound Effect (18).wav");
@@ -185,6 +197,13 @@ class Player : public GameEngine::Graphics::Sprite {
 			AudioManager::Get().PlayEffect("audio/Sound Effect (13).wav");
 		});
 		shield.SetCost(32);
+
+		shieldAnim = new GameEngine::TickAnimator();
+		shieldAnim->SetOnFinish([&](GameEngine::Animator* a) {
+			if (a->IsAlive() && this->IsAlive())
+				if (shield.IsActivated())
+					shield.Deactivate();
+		});
 
 		jump = new GameEngine::MovingAnimation("link.jump", 6, 0, -dy,
 											   dy / yvelocity);
@@ -226,10 +245,11 @@ class Player : public GameEngine::Graphics::Sprite {
 		damageAnimator = new GameEngine::FlashAnimator();
 		damageAnimator->SetOnStart([](GameEngine::Animator* anim) {
 			AudioManager::Get().PlayEffect("audio/hit.wav");
-			});
-		damageAnimator->SetOnAction([&](GameEngine::Animator* anim, const GameEngine::Animation& a) {
-			this->SetVisibility(!this->IsVisible());
 		});
+		damageAnimator->SetOnAction(
+			[&](GameEngine::Animator* anim, const GameEngine::Animation& a) {
+				this->SetVisibility(!this->IsVisible());
+			});
 
 		gravity.SetGravity(true);
 		gravity.SetOnSolidGround([&](const GameEngine::Graphics::Rect& rect) {
@@ -247,6 +267,7 @@ class Player : public GameEngine::Graphics::Sprite {
 		collectedItems.clear();
 
 		GameEngine::System::Destroy(controller);
+		GameEngine::System::Destroy(tick);
 		GameEngine::System::Destroy(fall);
 		GameEngine::System::Destroy(jump);
 		GameEngine::System::Destroy(dmg);
@@ -260,9 +281,15 @@ class Player : public GameEngine::Graphics::Sprite {
 
 		jumpAnimator->Destroy();
 		jumpAnimator = nullptr;
-		
+
 		damageAnimator->Destroy();
 		damageAnimator = nullptr;
+		
+		superjumpAnim->Destroy();
+		superjumpAnim = nullptr;
+
+		shieldAnim->Destroy();
+		shieldAnim = nullptr;
 	}
 
 	void SetDamage(int dmg) { damage = dmg; }
@@ -280,7 +307,8 @@ class Player : public GameEngine::Graphics::Sprite {
 
 		int cw = (isCrouched) ? 12 : 16;
 		int ch = 8;
-		int cx = (isLookingLeft) ? position.x - cw : position.x + position.width;
+		int cx =
+			(isLookingLeft) ? position.x - cw : position.x + position.width;
 		int cy = (isCrouched) ? y + position.height - ch : y;
 		int cdmg = (isCrouched) ? damage / 2 : damage;
 
@@ -297,8 +325,8 @@ class Player : public GameEngine::Graphics::Sprite {
 			 ++enemy) {
 			GameEngine::CollisionChecker::GetSingleton().Register(
 				dmgCol, *enemy,
-				[&,cdmg](GameEngine::Graphics::Sprite* s1,
-					   GameEngine::Graphics::Sprite* s2) {
+				[&, cdmg](GameEngine::Graphics::Sprite* s1,
+						  GameEngine::Graphics::Sprite* s2) {
 					if (s2->IsAlive()) {
 						if (this->health.IsFull()) {
 							Sprite* explosion = new Sprite(
@@ -348,14 +376,14 @@ class Player : public GameEngine::Graphics::Sprite {
 		}
 
 		for (auto item = GameEngine::SpriteManager::GetSingleton()
-							  .GetTypeList("item")
-							  .begin();
+							 .GetTypeList("item")
+							 .begin();
 			 item != GameEngine::SpriteManager::GetSingleton()
-						  .GetTypeList("item")
-						  .end();
+						 .GetTypeList("item")
+						 .end();
 			 ++item) {
 			GameEngine::CollisionChecker::GetSingleton().Register(
-				dmgCol, *item, [&, cdmg](Sprite * s1, Sprite * s2) {
+				dmgCol, *item, [&, cdmg](Sprite* s1, Sprite* s2) {
 					Item* item = (Item*)s2;
 					CollectItem(item->name);
 					item->UseItem();
@@ -369,9 +397,8 @@ class Player : public GameEngine::Graphics::Sprite {
 					   .GetTypeList("link.attacker")
 					   .begin();
 		if (lit != GameEngine::SpriteManager::GetSingleton()
-			.GetTypeList("link.attacker")
-			.end())
-		{
+					   .GetTypeList("link.attacker")
+					   .end()) {
 			if ((*lit)->IsAlive()) {
 				delete (*lit)->GetCollider();
 				(*lit)->Destroy();
@@ -389,7 +416,8 @@ class Player : public GameEngine::Graphics::Sprite {
 		int cy = y + position.height - ch;
 
 		GameEngine::BoxCollider2D me(cx, cy, cw, ch, "me");
-		GameEngine::BoxCollider2D box(other.x, other.y, other.width, other.height, "other");
+		GameEngine::BoxCollider2D box(other.x, other.y, other.width,
+									  other.height, "other");
 
 		return me.Overlap(box) && (currFilm->GetId() == LINK_CROUCH_LEFT ||
 								   currFilm->GetId() == LINK_CROUCH_RIGHT);
@@ -399,14 +427,14 @@ class Player : public GameEngine::Graphics::Sprite {
 			return;
 
 		damageAnimator->Start(dmg, GameEngine::Time::getTime());
-		health.TakeDamage(damage * (1 - damageReduce));
+		health.TakeDamage((int)(damage * (1 - damageReduce)));
 
 		if (health.IsEmpty()) {
 			damageAnimator->Stop();
 			Die();
 		}
 	}
-	
+
 	void Die() {
 		canMove = false;
 		this->SetVisibility(false);
@@ -422,7 +450,7 @@ class Player : public GameEngine::Graphics::Sprite {
 			GameEngine::SceneManager::GetSceneManager().LoadScene(
 				GameEngine::SceneManager::GetSceneManager()
 					.GetCurrentSceneIndex());
-			});
+		});
 		reset->Start(new GameEngine::TickAnimation("game.reset", 2, 1, true),
 					 GameEngine::Time::getTime());
 	}
@@ -589,11 +617,9 @@ class Player : public GameEngine::Graphics::Sprite {
 			magic.GetTotalHealth() - superJump.GetCost() >= 0) {
 			superJump.Activate();
 			magic.TakeDamage(superJump.GetCost());
+			if (superjumpAnim && superjumpAnim->HasFinished())
+				superjumpAnim->Start(tick, GameEngine::Time::getTime());
 		}
-		GameEngine::System::WaitForSeconds(10, [&]() {
-			if (superJump.IsActivated())
-				superJump.Deactivate();
-		});
 	}
 
 	void Shield() {
@@ -601,11 +627,9 @@ class Player : public GameEngine::Graphics::Sprite {
 			magic.GetTotalHealth() - shield.GetCost() >= 0) {
 			shield.Activate();
 			magic.TakeDamage(shield.GetCost());
+			if (shieldAnim && shieldAnim->HasFinished())
+				shieldAnim->Start(tick, GameEngine::Time::getTime());
 		}
-		GameEngine::System::WaitForSeconds(10, [&]() {
-			if (shield.IsActivated())
-				shield.Deactivate();
-		});
 	}
 
 	void Fall() {

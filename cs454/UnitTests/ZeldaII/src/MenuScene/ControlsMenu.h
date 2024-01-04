@@ -28,9 +28,11 @@ class ControlsMenu : public GameEngine::Graphics::UIElement {
 		texts.push_back(new Text("MOVE RIGHT: RIGHT ARROW", font, fontSize));
 		texts.push_back(new Text("JUMP: A", font, fontSize));
 		texts.push_back(new Text("CROUCH: DOWN ARROW", font, fontSize));
+		texts.push_back(new Text("ACTIVATE SUPERJUMP SPELL: F", font, fontSize));
 		texts.push_back(new Text("ATTACK: B", font, fontSize));
 		texts.push_back(new Text("CROUCH ATTACK: DOWN + B", font, fontSize));
 		texts.push_back(new Text("PAUSE/RESUME: ESCAPE", font, fontSize));
+		texts.push_back(new Text("ACTIVATE SHIELD SPELL: G", font, fontSize));
 	}
 
 	~ControlsMenu() {

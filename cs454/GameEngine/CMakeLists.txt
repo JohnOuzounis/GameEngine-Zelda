@@ -74,7 +74,7 @@ set(ENGINE_SOURCES
  "include/GameEngine/SpriteManager.h" "src/GameEngine/SpriteManager.cpp" 
  "src/GameEngine/Animation/AnimatorManager.cpp" "include/GameEngine/Animation/FrameListAnimator.h" 
  "src/GameEngine/Animation/FrameListAnimator.cpp" "include/GameEngine/Animation/FlashAnimator.h"
- "src/GameEngine/Animation/FlashAnimator.cpp" "include/GameEngine/Animation/ScrollAnimator.h" "src/GameEngine/Animation/ScrollAnimator.cpp" "include/GameEngine/Animation/MovingPathAnimator.h" "src/GameEngine/Animation/MovingPathAnimator.cpp" "include/GameEngine/Debug.h")
+ "src/GameEngine/Animation/FlashAnimator.cpp" "include/GameEngine/Animation/ScrollAnimator.h" "src/GameEngine/Animation/ScrollAnimator.cpp" "include/GameEngine/Animation/MovingPathAnimator.h" "src/GameEngine/Animation/MovingPathAnimator.cpp" "include/GameEngine/Debug.h" )
 
 
 # Create a library for the GameEngine

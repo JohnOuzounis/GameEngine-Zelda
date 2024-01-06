@@ -952,10 +952,11 @@ void GameScene::SpawnEnemies() {
 void GameScene::SpawnItems() {
 	MakeKey(48, 464, "key.idle", "key");
 	MakeKey(4432, 992, "masterkey.idle", "masterkey");
-	MakePotion(48, 352, "redpotion.idle", "redpotion", 128);
+	MakePotion(48, 352, "bluepotion.idle", "bluepotion", 16);
 	MakePointbag(752, 704, 10);
 	MakePointbag(768, 704, 10);
-	MakePotion(720, 688, "bluepotion.idle", "bluepotion", 16);
+	MakePotion(720, 688, "redpotion.idle", "redpotion", 128);
+	MakePotion(2960, 928, "redpotion.idle", "redpotion", 128);
 	MakeGauntlet(736, 704, 8);
 	MakeDoll(3120, 704);
 	MakeHealPotion(4400, 992);

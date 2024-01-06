@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/Graphics/UIElement.h>
 #include <GameEngine/Graphics/Text.h>
+#include <GameEngine/System.h>
 
 class PauseMenu : public GameEngine::Graphics::UIElement {
    private:
@@ -32,5 +33,11 @@ class PauseMenu : public GameEngine::Graphics::UIElement {
 
 		bg = Image::Create(width, height, {123, 123, 123, 255});
 		text = new Text("PAUSED", Text::Font::Roboto_Bold, 40);
+	}
+	~PauseMenu() {
+		if (bg)
+			GameEngine::System::Destroy(bg);
+		if (text)
+			GameEngine::System::Destroy(text);
 	}
 };

@@ -27,6 +27,8 @@ Image* GameEngine::Graphics::Text::GetImage() const {
 		assert(surface);
 		return nullptr;
 	}
+	TTF_CloseFont(font);
+	
 	return new Image(surface);
 }
 

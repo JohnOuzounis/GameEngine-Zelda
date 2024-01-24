@@ -56,7 +56,6 @@ bool GameEngine::Audio::Load(std::string path) {
 	if (!sound) {
 		std::cerr << "SDL Mixer sound loading error: " << Mix_GetError()
 				  << std::endl;
-		assert(sound);
 		return false;
 	}
 	return true;

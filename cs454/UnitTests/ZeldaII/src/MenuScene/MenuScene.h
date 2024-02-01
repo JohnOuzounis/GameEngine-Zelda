@@ -52,6 +52,7 @@ class MenuScene : public GameEngine::Scene {
 
 		LoadFilms();
 		Audio* audio = AudioManager::Get().GetAudio("audio/specialz.mp3");
+		audio->SetLoop(true);
 		audio->Play();
 
 		button = new Button();
